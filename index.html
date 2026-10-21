@@ -1,0 +1,1350 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="referrer" content="no-referrer">
+  <title>Cari Haiwan / Find the Animal - Kindy Klub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    * {
+      font-family: 'Quicksand', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+      -webkit-user-select: none;
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      overflow-x: hidden;
+      background: #7bd389;
+      color: #1f2937;
+    }
+
+    .btn-3d {
+      transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
+      box-shadow: 0 6px 0 rgba(0, 0, 0, 0.15), 0 10px 20px rgba(0, 0, 0, 0.08);
+    }
+    .btn-3d:active {
+      transform: translateY(4px);
+      box-shadow: 0 2px 0 rgba(0, 0, 0, 0.15), 0 4px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .card-choice {
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease, border-color 0.2s ease;
+      box-shadow: 0 8px 0 rgba(16, 185, 129, 0.15), 0 14px 28px rgba(0, 0, 0, 0.08);
+      cursor: pointer;
+    }
+    .card-choice:hover {
+      transform: translateY(-4px) scale(1.02);
+    }
+    .card-choice:active {
+      transform: translateY(2px) scale(0.98);
+    }
+
+    @keyframes gentlePop {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.06); }
+      100% { transform: scale(1); }
+    }
+    .anim-pop {
+      animation: gentlePop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    @keyframes gentleFloat {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-7px) rotate(1.5deg); }
+    }
+    .anim-float {
+      animation: gentleFloat 3.8s ease-in-out infinite;
+    }
+
+    @keyframes soundWave {
+      0%, 100% { transform: scale(1); opacity: 0.9; }
+      50% { transform: scale(1.15); opacity: 1; }
+    }
+    .anim-wave {
+      animation: soundWave 1.4s ease-in-out infinite;
+    }
+
+    .glass-panel {
+      background: rgba(255, 255, 255, 0.93);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 3px solid rgba(255, 255, 255, 0.95);
+    }
+
+    .photo-display {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 1rem;
+    }
+  </style>
+</head>
+<body class="relative flex flex-col min-h-screen">
+
+  <!-- Animated SVG Background -->
+  <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden" aria-hidden="true">
+    <svg class="w-full h-full object-cover" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="skyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#bbf2f6" />
+          <stop offset="55%" stop-color="#dcfce7" />
+          <stop offset="100%" stop-color="#86efac" />
+        </linearGradient>
+        <linearGradient id="distantHillGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#6ee7b7" />
+          <stop offset="100%" stop-color="#34d399" />
+        </linearGradient>
+        <linearGradient id="midHillGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#4ade80" />
+          <stop offset="100%" stop-color="#22c55e" />
+        </linearGradient>
+        <linearGradient id="foreFieldGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#22c55e" />
+          <stop offset="100%" stop-color="#16a34a" />
+        </linearGradient>
+        <radialGradient id="sunGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#fef08a" stop-opacity="1" />
+          <stop offset="65%" stop-color="#fde047" stop-opacity="0.8" />
+          <stop offset="100%" stop-color="#facc15" stop-opacity="0" />
+        </radialGradient>
+      </defs>
+
+      <rect width="1440" height="900" fill="url(#skyGrad)" />
+
+      <!-- Rotating Sun -->
+      <g transform="translate(1180, 140)">
+        <circle cx="0" cy="0" r="75" fill="url(#sunGlow)">
+          <animate attributeName="r" values="70;82;70" dur="5s" repeatCount="indefinite" />
+        </circle>
+        <circle cx="0" cy="0" r="42" fill="#fbbf24" />
+        <g stroke="#f59e0b" stroke-width="4" stroke-linecap="round">
+          <line x1="0" y1="-54" x2="0" y2="-66" />
+          <line x1="38" y1="-38" x2="47" y2="-47" />
+          <line x1="54" y1="0" x2="66" y2="0" />
+          <line x1="38" y1="38" x2="47" y2="47" />
+          <line x1="0" y1="54" x2="0" y2="66" />
+          <line x1="-38" y1="38" x2="-47" y2="47" />
+          <line x1="-54" y1="0" x2="-66" y2="0" />
+          <line x1="-38" y1="-38" x2="-47" y2="-47" />
+          <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="35s" repeatCount="indefinite" />
+        </g>
+      </g>
+
+      <!-- Drifting Clouds -->
+      <g opacity="0.88">
+        <path d="M 0 110 Q 30 75 70 85 Q 110 50 160 70 Q 210 55 240 90 Q 270 120 230 135 L 0 135 Z" fill="#ffffff">
+          <animateTransform attributeName="transform" type="translate" from="-300, 0" to="1500, 0" dur="48s" repeatCount="indefinite" />
+        </path>
+      </g>
+      <g opacity="0.75">
+        <path d="M 0 180 Q 40 140 90 155 Q 140 115 210 140 Q 270 120 310 165 Q 340 200 290 220 L 0 220 Z" fill="#ffffff">
+          <animateTransform attributeName="transform" type="translate" from="-400, 40" to="1500, 40" dur="68s" repeatCount="indefinite" />
+        </path>
+      </g>
+
+      <!-- Hills -->
+      <path d="M -80 580 Q 260 380 620 490 Q 980 600 1240 450 Q 1400 370 1520 440 L 1520 900 L -80 900 Z" fill="url(#distantHillGrad)" />
+      <path d="M -60 640 Q 220 510 560 610 Q 920 700 1220 570 Q 1380 510 1520 560 L 1520 900 L -60 900 Z" fill="url(#midHillGrad)" />
+
+      <!-- Tree -->
+      <g transform="translate(130, 520)">
+        <rect x="-7" y="0" width="14" height="65" fill="#854d0e" rx="4" />
+        <ellipse cx="0" cy="-25" rx="44" ry="50" fill="#15803d">
+          <animateTransform attributeName="transform" type="rotate" values="-2 0 65; 2 0 65; -2 0 65" dur="4.2s" repeatCount="indefinite" />
+        </ellipse>
+        <ellipse cx="-15" cy="-28" rx="28" ry="32" fill="#16a34a" />
+        <ellipse cx="14" cy="-20" rx="22" ry="26" fill="#22c55e" />
+      </g>
+
+      <path d="M -40 730 Q 340 680 720 740 Q 1100 800 1480 710 L 1480 900 L -40 900 Z" fill="url(#foreFieldGrad)" />
+
+      <!-- Flower -->
+      <g transform="translate(180, 810)">
+        <path d="M 0 0 Q 3 -25 0 -50" stroke="#15803d" stroke-width="4" fill="none" />
+        <g transform="translate(0, -50)">
+          <circle cx="-9" cy="0" r="8" fill="#f43f5e" />
+          <circle cx="9" cy="0" r="8" fill="#f43f5e" />
+          <circle cx="0" cy="-9" r="8" fill="#f43f5e" />
+          <circle cx="0" cy="9" r="8" fill="#f43f5e" />
+          <circle cx="0" cy="0" r="7" fill="#facc15" />
+          <animateTransform attributeName="transform" type="rotate" values="-6 0 50; 6 0 50; -6 0 50" dur="3s" repeatCount="indefinite" />
+        </g>
+      </g>
+    </svg>
+  </div>
+
+  <!-- Header -->
+  <header class="relative z-20 w-full px-3 py-2 sm:px-6 sm:py-3 flex items-center justify-between glass-panel shadow-sm border-b-2 border-emerald-200">
+    <div class="flex items-center space-x-2">
+      <button onclick="navigate('home')" class="flex items-center space-x-2 focus:outline-none group">
+        <div id="headerMascotIcon" class="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-amber-100 border-2 border-amber-400 p-0.5 flex items-center justify-center shadow"></div>
+        <div class="text-left">
+          <h1 id="appTitleText" class="text-base sm:text-xl font-extrabold text-emerald-950 leading-tight">Cari Haiwan</h1>
+          <p id="appSubtitleText" class="text-xs font-bold text-emerald-600 hidden sm:block">Kindy Klub</p>
+        </div>
+      </button>
+    </div>
+
+    <div class="flex items-center space-x-1.5 sm:space-x-3">
+      <!-- Gallery Button -->
+      <button onclick="openGalleryView()" class="btn-3d px-2.5 py-1.5 sm:px-3 sm:py-2 bg-sky-600 hover:bg-sky-500 text-white font-extrabold text-xs sm:text-sm rounded-xl flex items-center space-x-1 border border-sky-700" title="Semak Gambar Semua Haiwan">
+        <span>🖼️</span>
+        <span class="hidden sm:inline">Galeri</span>
+      </button>
+
+      <!-- Language Toggle -->
+      <button id="langToggleBtn" onclick="toggleLanguage()" class="btn-3d px-2.5 py-1.5 sm:px-3.5 sm:py-2 bg-amber-400 hover:bg-amber-300 text-amber-950 font-extrabold text-xs sm:text-sm rounded-xl flex items-center space-x-1 border border-amber-500">
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="2" y1="12" x2="22" y2="12"></line>
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+        </svg>
+        <span id="langLabel">English</span>
+      </button>
+
+      <!-- Profile -->
+      <button id="profileNavBtn" onclick="navigate('profile')" class="btn-3d px-2.5 py-1.5 sm:px-3.5 sm:py-2 bg-emerald-500 hover:bg-emerald-400 text-white font-extrabold text-xs sm:text-sm rounded-xl flex items-center space-x-1 border border-emerald-600">
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+          <circle cx="12" cy="7" r="4"></circle>
+        </svg>
+        <span id="profileNavLabel">Profil</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Views -->
+  <main class="relative z-10 flex-1 flex flex-col items-center justify-center p-3 sm:p-5 max-w-4xl mx-auto w-full">
+
+    <!-- VIEW 1: HOME -->
+    <div id="view-home" class="w-full flex flex-col items-center text-center space-y-4 sm:space-y-6">
+      <div class="glass-panel w-full max-w-lg p-5 sm:p-8 rounded-3xl shadow-xl flex flex-col items-center">
+        <div id="homeMascotContainer" class="w-36 h-36 sm:w-48 sm:h-48 anim-float mb-2"></div>
+        <h2 id="homeWelcomeTitle" class="text-2xl sm:text-4xl font-extrabold text-emerald-950 mt-1">Cari Haiwan!</h2>
+        <p id="homeWelcomeSub" class="text-emerald-800 text-sm sm:text-base font-bold mt-1 max-w-sm">
+          Jom kenal dan cari haiwan comel bersama Si Beruang!
+        </p>
+
+        <div class="w-full mt-6">
+          <p id="sessionSelectPrompt" class="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-emerald-700 mb-3">
+            Pilih Bilangan Soalan:
+          </p>
+          <div class="grid grid-cols-3 gap-2.5 sm:gap-3 w-full">
+            <button onclick="startGame(5)" class="btn-3d py-3.5 px-2 bg-gradient-to-b from-sky-400 to-sky-500 hover:from-sky-300 hover:to-sky-400 text-white font-extrabold rounded-2xl border-2 border-sky-600 text-center">
+              <span class="block text-xl sm:text-2xl font-black">5</span>
+              <span id="session5Label" class="text-xs font-bold block mt-0.5">Soalan</span>
+            </button>
+            <button onclick="startGame(10)" class="btn-3d py-3.5 px-2 bg-gradient-to-b from-emerald-500 to-emerald-600 hover:from-emerald-400 hover:to-emerald-500 text-white font-extrabold rounded-2xl border-2 border-emerald-700 text-center shadow-md">
+              <span class="block text-xl sm:text-2xl font-black">10</span>
+              <span id="session10Label" class="text-xs font-bold block mt-0.5">Soalan</span>
+            </button>
+            <button onclick="startGame(15)" class="btn-3d py-3.5 px-2 bg-gradient-to-b from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-amber-950 font-extrabold rounded-2xl border-2 border-amber-600 text-center">
+              <span class="block text-xl sm:text-2xl font-black">15</span>
+              <span id="session15Label" class="text-xs font-bold block mt-0.5">Soalan</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="flex items-center space-x-4 mt-5">
+          <button onclick="navigate('instructions')" id="howToPlayBtn" class="text-emerald-700 hover:text-emerald-900 text-sm font-bold underline flex items-center space-x-1">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+            <span id="howToPlayLabel">Cara Bermain</span>
+          </button>
+
+          <button onclick="openGalleryView()" class="text-sky-700 hover:text-sky-900 text-sm font-bold underline flex items-center space-x-1">
+            <span>🖼️</span>
+            <span>Semak Galeri (55 Haiwan)</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW 2: INSTRUCTIONS -->
+    <div id="view-instructions" class="w-full hidden flex flex-col items-center">
+      <div class="glass-panel w-full max-w-lg p-5 sm:p-7 rounded-3xl shadow-xl flex flex-col items-center text-center">
+        <div id="instrMascotContainer" class="w-24 h-24 sm:w-28 sm:h-28 mb-3 anim-float"></div>
+        <h2 id="instrTitle" class="text-xl sm:text-2xl font-black text-emerald-950">Cara Bermain</h2>
+
+        <div class="w-full space-y-3.5 text-left my-4 text-emerald-900 text-sm sm:text-base font-bold">
+          <div class="flex items-start space-x-3 bg-emerald-50/90 p-3 rounded-2xl border border-emerald-200">
+            <span class="bg-emerald-500 text-white rounded-full w-7 h-7 flex-shrink-0 flex items-center justify-center font-extrabold text-sm">1</span>
+            <p id="instrStep1" class="pt-0.5">Dengar atau baca arahan. Contohnya: "Cari kucing."</p>
+          </div>
+          <div class="flex items-start space-x-3 bg-emerald-50/90 p-3 rounded-2xl border border-emerald-200">
+            <span class="bg-emerald-500 text-white rounded-full w-7 h-7 flex-shrink-0 flex items-center justify-center font-extrabold text-sm">2</span>
+            <p id="instrStep2" class="pt-0.5">Lihat 3 pilihan gambar haiwan comel yang dipaparkan.</p>
+          </div>
+          <div class="flex items-start space-x-3 bg-emerald-50/90 p-3 rounded-2xl border border-emerald-200">
+            <span class="bg-emerald-500 text-white rounded-full w-7 h-7 flex-shrink-0 flex items-center justify-center font-extrabold text-sm">3</span>
+            <p id="instrStep3" class="pt-0.5">Tekan pada haiwan yang betul untuk kumpul markah!</p>
+          </div>
+        </div>
+
+        <button onclick="navigate('home')" id="instrBackBtn" class="btn-3d w-full py-3 bg-emerald-500 hover:bg-emerald-400 text-white font-black rounded-2xl border-2 border-emerald-600 text-base">
+          Faham, Jom Mula!
+        </button>
+      </div>
+    </div>
+
+    <!-- VIEW 3: GAMEPLAY -->
+    <div id="view-gameplay" class="w-full hidden flex flex-col items-center">
+      <div class="w-full max-w-xl flex items-center justify-between mb-2.5 px-2">
+        <div class="glass-panel px-3.5 py-1.5 rounded-full border border-emerald-300 shadow-sm flex items-center space-x-2">
+          <span class="w-3 h-3 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span id="gameProgressText" class="text-xs sm:text-sm font-extrabold text-emerald-900">Soalan 1 daripada 10</span>
+        </div>
+
+        <div class="glass-panel px-3.5 py-1.5 rounded-full border border-amber-300 shadow-sm flex items-center space-x-1.5">
+          <svg class="w-4 h-4 text-amber-500" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <span class="text-xs sm:text-sm font-extrabold text-amber-900">
+            <span id="scoreLabelInline">Markah</span>: <span id="currentScoreNum" class="text-base font-black text-amber-600">0</span>
+          </span>
+        </div>
+      </div>
+
+      <div class="glass-panel w-full max-w-xl p-3.5 sm:p-5 rounded-3xl shadow-xl flex flex-col items-center text-center relative overflow-hidden">
+        
+        <div class="w-full bg-emerald-100/90 border-2 border-emerald-300 rounded-2xl p-2.5 sm:p-3 flex items-center justify-between mb-3">
+          <div class="flex items-center space-x-2 text-left flex-1 pl-1">
+            <span class="text-emerald-700 flex-shrink-0">
+              <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
+            </span>
+            <div>
+              <p id="instructionSubText" class="text-[11px] font-bold text-emerald-700 uppercase tracking-wider leading-none">Arahan</p>
+              <p id="instructionMainText" class="text-lg sm:text-2xl font-black text-emerald-950 mt-0.5">Cari kucing.</p>
+            </div>
+          </div>
+
+          <button id="voiceRepeatBtn" onclick="speakCurrentInstruction()" class="btn-3d flex-shrink-0 w-11 h-11 bg-amber-400 hover:bg-amber-300 text-amber-950 rounded-2xl flex items-center justify-center border-2 border-amber-500" aria-label="Dengar Suara">
+            <svg id="speakerIcon" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+              <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+              <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Target Animal Display Box (Enlarged) -->
+        <div class="relative w-full h-64 sm:h-76 md:h-84 bg-gradient-to-b from-sky-100 to-emerald-50 rounded-2xl border-2 border-emerald-200 flex items-center justify-center p-2 overflow-hidden shadow-inner">
+          <div id="targetAnimalDisplay" class="relative z-10 w-full h-full flex items-center justify-center transition-all duration-300"></div>
+
+          <div id="feedbackToast" class="absolute inset-0 bg-white/95 z-20 flex flex-col items-center justify-center transition-opacity duration-200 opacity-0 pointer-events-none rounded-2xl p-4">
+            <div id="feedbackIcon" class="w-14 h-14 sm:w-16 sm:h-16 mb-1"></div>
+            <p id="feedbackText" class="text-xl sm:text-2xl font-black text-center"></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="w-full max-w-xl mt-3.5">
+        <p id="answerChoiceInstruction" class="text-xs sm:text-sm font-extrabold text-emerald-900 text-center mb-2.5 drop-shadow-sm">
+          Tekan jawapan yang betul:
+        </p>
+
+        <div id="choiceCardsContainer" class="grid grid-cols-3 gap-2.5 sm:gap-4 w-full"></div>
+      </div>
+    </div>
+
+    <!-- VIEW 4: RESULT -->
+    <div id="view-result" class="w-full hidden flex flex-col items-center text-center">
+      <div class="glass-panel w-full max-w-md p-5 sm:p-7 rounded-3xl shadow-xl flex flex-col items-center">
+        <div id="resultMascotContainer" class="w-28 h-28 sm:w-36 sm:h-36 mb-2 anim-float"></div>
+
+        <h2 id="resultCongratTitle" class="text-2xl sm:text-3xl font-black text-emerald-950">Tahniah!</h2>
+        <p id="resultCheerSub" class="text-emerald-700 text-sm font-bold mt-0.5">Hebatnya kamu bermain hari ini!</p>
+
+        <div class="w-full grid grid-cols-2 gap-2.5 my-5 text-left">
+          <div class="bg-emerald-50 border-2 border-emerald-200 p-3 rounded-2xl">
+            <p id="statAnsweredLabel" class="text-[11px] font-extrabold text-emerald-700 uppercase">Soalan Dijawab</p>
+            <p id="statAnsweredVal" class="text-xl sm:text-2xl font-black text-emerald-950 mt-0.5">10</p>
+          </div>
+          <div class="bg-emerald-50 border-2 border-emerald-200 p-3 rounded-2xl">
+            <p id="statCorrectLabel" class="text-[11px] font-extrabold text-emerald-700 uppercase">Jawapan Betul</p>
+            <p id="statCorrectVal" class="text-xl sm:text-2xl font-black text-emerald-600 mt-0.5">10</p>
+          </div>
+          <div class="bg-sky-50 border-2 border-sky-200 p-3 rounded-2xl">
+            <p id="statAccuracyLabel" class="text-[11px] font-extrabold text-sky-700 uppercase">Ketepatan</p>
+            <p id="statAccuracyVal" class="text-xl sm:text-2xl font-black text-sky-950 mt-0.5">100%</p>
+          </div>
+          <div class="bg-amber-50 border-2 border-amber-200 p-3 rounded-2xl">
+            <p id="statBestScoreLabel" class="text-[11px] font-extrabold text-amber-700 uppercase">Skor Terbaik</p>
+            <p id="statBestScoreVal" class="text-xl sm:text-2xl font-black text-amber-950 mt-0.5">10</p>
+          </div>
+        </div>
+
+        <div class="w-full space-y-2.5">
+          <button onclick="playAgain()" id="playAgainBtn" class="btn-3d w-full py-3.5 bg-gradient-to-b from-emerald-500 to-emerald-600 hover:from-emerald-400 hover:to-emerald-500 text-white text-base sm:text-lg font-black rounded-2xl border-2 border-emerald-700 shadow-md">
+            Main Lagi
+          </button>
+          <button onclick="navigate('home')" id="backHomeFromResBtn" class="btn-3d w-full py-2.5 bg-white hover:bg-gray-50 text-emerald-900 font-extrabold rounded-2xl border-2 border-gray-200 text-sm">
+            Kembali ke Menu Utama
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW 5: PROFILE -->
+    <div id="view-profile" class="w-full hidden flex flex-col items-center">
+      <div class="glass-panel w-full max-w-lg p-5 sm:p-7 rounded-3xl shadow-xl flex flex-col items-center">
+        <div class="flex items-center space-x-3 w-full pb-3 border-b border-emerald-100">
+          <div id="profileMascotContainer" class="w-16 h-16 rounded-2xl bg-amber-100 border-2 border-amber-400 p-1 flex-shrink-0 flex items-center justify-center"></div>
+          <div class="text-left flex-1">
+            <h2 id="profileTitle" class="text-xl sm:text-2xl font-black text-emerald-950">Profil Pemain</h2>
+            <p id="profileSub" class="text-xs font-bold text-emerald-700">Rekod Pembelajaran Kindy Klub</p>
+          </div>
+        </div>
+
+        <div class="w-full space-y-3.5 my-4">
+          <div class="text-left">
+            <label id="playerNameLabel" class="block text-xs font-extrabold uppercase text-emerald-800 mb-1" for="playerNameInput">
+              Nama Pemain:
+            </label>
+            <input type="text" id="playerNameInput" maxlength="24" placeholder="Adik Pintar" class="w-full px-3.5 py-2.5 rounded-xl border-2 border-emerald-300 focus:border-emerald-500 focus:outline-none font-bold text-emerald-950 text-sm bg-white/90" oninput="saveProfileData()">
+          </div>
+
+          <div class="text-left">
+            <label id="familyCodeLabel" class="block text-xs font-extrabold uppercase text-emerald-800 mb-1" for="familyCodeInput">
+              Kod Keluarga (Pilihan):
+            </label>
+            <input type="text" id="familyCodeInput" maxlength="20" placeholder="" class="w-full px-3.5 py-2.5 rounded-xl border-2 border-emerald-300 focus:border-emerald-500 focus:outline-none font-bold text-emerald-950 text-sm bg-white/90" oninput="saveProfileData()">
+          </div>
+        </div>
+
+        <div class="w-full grid grid-cols-2 sm:grid-cols-3 gap-2.5 my-1 text-left">
+          <div class="bg-emerald-50/90 border border-emerald-200 p-2.5 rounded-xl">
+            <p id="statProfGamesLabel" class="text-[10px] font-extrabold text-emerald-700 uppercase">Sesi Dimainkan</p>
+            <p id="statProfGames" class="text-lg font-black text-emerald-950">0</p>
+          </div>
+          <div class="bg-emerald-50/90 border border-emerald-200 p-2.5 rounded-xl">
+            <p id="statProfQuestionsLabel" class="text-[10px] font-extrabold text-emerald-700 uppercase">Soalan Dijawab</p>
+            <p id="statProfQuestions" class="text-lg font-black text-emerald-950">0</p>
+          </div>
+          <div class="bg-emerald-50/90 border border-emerald-200 p-2.5 rounded-xl">
+            <p id="statProfCorrectLabel" class="text-[10px] font-extrabold text-emerald-700 uppercase">Jawapan Betul</p>
+            <p id="statProfCorrect" class="text-lg font-black text-emerald-600">0</p>
+          </div>
+          <div class="bg-amber-50/90 border border-amber-200 p-2.5 rounded-xl">
+            <p id="statProfBestLabel" class="text-[10px] font-extrabold text-amber-700 uppercase">Skor Terbaik</p>
+            <p id="statProfBest" class="text-lg font-black text-amber-950">0</p>
+          </div>
+          <div class="bg-sky-50/90 border border-sky-200 p-2.5 rounded-xl">
+            <p id="statProfAccuracyLabel" class="text-[10px] font-extrabold text-sky-700 uppercase">Ketepatan</p>
+            <p id="statProfAccuracy" class="text-lg font-black text-sky-950">0%</p>
+          </div>
+          <div class="bg-purple-50/90 border border-purple-200 p-2.5 rounded-xl">
+            <p id="statProfRecentLabel" class="text-[10px] font-extrabold text-purple-700 uppercase">Aktiviti Terkini</p>
+            <p id="statProfRecent" class="text-xs font-extrabold text-purple-950 truncate">Belum ada</p>
+          </div>
+        </div>
+
+        <button onclick="navigate('home')" id="profileBackBtn" class="btn-3d w-full mt-5 py-3 bg-emerald-500 hover:bg-emerald-400 text-white font-black rounded-2xl border-2 border-emerald-600 text-sm">
+          Kembali ke Permainan
+        </button>
+      </div>
+    </div>
+
+    <!-- VIEW 6: GALLERY & IMAGE CHECKER -->
+    <div id="view-gallery" class="w-full hidden flex flex-col items-center">
+      <div class="glass-panel w-full max-w-3xl p-4 sm:p-6 rounded-3xl shadow-xl flex flex-col items-center">
+        <div class="flex items-center justify-between w-full pb-3 border-b border-emerald-200">
+          <div>
+            <h2 class="text-xl sm:text-2xl font-black text-emerald-950 text-left">Galeri & Status 55 Gambar</h2>
+            <p class="text-xs font-bold text-emerald-700 text-left">Semak serta-merta status foto Pexels vs lukisan SVG</p>
+          </div>
+          <button onclick="navigate('home')" class="btn-3d px-3 py-1.5 bg-emerald-500 hover:bg-emerald-400 text-white font-bold text-xs rounded-xl border border-emerald-600">
+            Kembali
+          </button>
+        </div>
+
+        <!-- Summary Bar -->
+        <div class="w-full grid grid-cols-2 gap-3 my-3">
+          <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-2.5 text-center">
+            <span class="text-xs font-extrabold text-emerald-700">Foto Berjaya Dimuatkan</span>
+            <p id="galleryPhotoOkCount" class="text-xl font-black text-emerald-600">Memeriksa...</p>
+          </div>
+          <div class="bg-amber-50 border border-amber-200 rounded-xl p-2.5 text-center">
+            <span class="text-xs font-extrabold text-amber-700">Bertukar ke SVG</span>
+            <p id="gallerySvgCount" class="text-xl font-black text-amber-600">Memeriksa...</p>
+          </div>
+        </div>
+
+        <!-- Animals Grid -->
+        <div id="galleryGridContainer" class="w-full grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 max-h-[62vh] overflow-y-auto p-1"></div>
+
+        <button onclick="navigate('home')" class="btn-3d w-full mt-4 py-3 bg-emerald-500 hover:bg-emerald-400 text-white font-black rounded-2xl border-2 border-emerald-600 text-sm">
+          Kembali ke Menu Utama
+        </button>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="relative z-20 py-3 text-center text-xs font-bold text-emerald-900 glass-panel border-t border-emerald-200">
+    Kinder Klub | All Rights Reserved
+  </footer>
+
+  <script>
+    const pexelsUrl = (id) => `https://images.pexels.com/photos/${id}/pexels-photo-${id}.jpeg?auto=compress&cs=tinysrgb&w=800`;
+
+    const ANIMAL_CATALOG = [
+      // FARM ANIMALS (12)
+      {
+        id: "cat", category: "farm", name_bm: "Kucing", name_en: "Cat",
+        imageUrl: pexelsUrl(36401636),
+        render: () => `<svg viewBox="0 0 120 120" class="w-full h-full drop-shadow-sm"><path d="M 85 85 Q 105 75 102 55 Q 100 45 92 48" fill="none" stroke="#f97316" stroke-width="9" stroke-linecap="round"/><ellipse cx="60" cy="78" rx="30" ry="24" fill="#fb923c"/><ellipse cx="60" cy="80" rx="18" ry="16" fill="#ffedd5"/><ellipse cx="38" cy="94" rx="11" ry="8" fill="#f97316"/><ellipse cx="82" cy="94" rx="11" ry="8" fill="#f97316"/><circle cx="60" cy="46" r="26" fill="#fb923c"/><polygon points="40,32 30,12 50,24" fill="#f97316"/><polygon points="41,30 35,16 48,24" fill="#fbcfe8"/><polygon points="80,32 90,12 70,24" fill="#f97316"/><polygon points="79,30 85,16 72,24" fill="#fbcfe8"/><circle cx="50" cy="45" r="4.5" fill="#1e293b"/><circle cx="51.5" cy="43.5" r="1.5" fill="#ffffff"/><circle cx="70" cy="45" r="4.5" fill="#1e293b"/><circle cx="71.5" cy="43.5" r="1.5" fill="#ffffff"/><polygon points="60,52 56,48 64,48" fill="#f43f5e"/><path d="M 56 55 Q 60 58 64 55" fill="none" stroke="#9a3412" stroke-width="2" stroke-linecap="round"/><line x1="38" y1="51" x2="22" y2="48" stroke="#78350f" stroke-width="1.8" stroke-linecap="round"/><line x1="38" y1="55" x2="24" y2="57" stroke="#78350f" stroke-width="1.8" stroke-linecap="round"/><line x1="82" y1="51" x2="98" y2="48" stroke="#78350f" stroke-width="1.8" stroke-linecap="round"/><line x1="82" y1="55" x2="96" y2="57" stroke="#78350f" stroke-width="1.8" stroke-linecap="round"/></svg>`
+      },
+      {
+        id: "dog", category: "farm", name_bm: "Anjing", name_en: "Dog",
+        imageUrl: pexelsUrl(23849245),
+        render: () => `<svg viewBox="0 0 120 120" class="w-full h-full drop-shadow-sm"><path d="M 90 70 Q 106 58 98 42" fill="none" stroke="#b45309" stroke-width="8" stroke-linecap="round"/><ellipse cx="60" cy="76" rx="32" ry="25" fill="#d97706"/><rect x="36" y="86" width="10" height="20" rx="5" fill="#b45309"/><rect x="74" y="86" width="10" height="20" rx="5" fill="#b45309"/><ellipse cx="52" cy="78" rx="16" ry="18" fill="#fef3c7"/><circle cx="50" cy="46" r="24" fill="#d97706"/><path d="M 32 36 C 20 42 22 62 34 58 Z" fill="#92400e"/><path d="M 68 36 C 80 42 78 62 66 58 Z" fill="#92400e"/><ellipse cx="50" cy="54" rx="13" ry="10" fill="#fef3c7"/><ellipse cx="50" cy="50" rx="5" ry="3.5" fill="#1f2937"/><path d="M 50 54 L 50 58 M 46 58 Q 50 62 54 58" fill="none" stroke="#1f2937" stroke-width="2" stroke-linecap="round"/><circle cx="42" cy="42" r="4" fill="#1f2937"/><circle cx="43" cy="40.5" r="1.3" fill="#fff"/><circle cx="58" cy="42" r="4" fill="#1f2937"/><circle cx="59" cy="40.5" r="1.3" fill="#fff"/></svg>`
+      },
+      {
+        id: "cow", category: "farm", name_bm: "Lembu", name_en: "Cow",
+        imageUrl: pexelsUrl(5633476),
+        render: () => `<svg viewBox="0 0 120 120" class="w-full h-full drop-shadow-sm"><ellipse cx="62" cy="75" rx="35" ry="26" fill="#f8fafc" stroke="#334155" stroke-width="2"/><path d="M 50 60 Q 64 62 58 74 Q 48 80 42 70 Z" fill="#1e293b"/><path d="M 75 70 Q 90 75 82 88 Q 72 90 70 80 Z" fill="#1e293b"/><path d="M 96 72 Q 104 85 100 95" fill="none" stroke="#64748b" stroke-width="4"/><ellipse cx="100" cy="97" rx="3.5" ry="6" fill="#1e293b"/><rect x="36" y="88" width="10" height="20" fill="#f8fafc" stroke="#334155" stroke-width="1.5"/><rect x="36" y="103" width="10" height="5" fill="#334155"/><rect x="78" y="88" width="10" height="20" fill="#f8fafc" stroke="#334155" stroke-width="1.5"/><rect x="78" y="103" width="10" height="5" fill="#334155"/><ellipse cx="44" cy="42" rx="22" ry="20" fill="#f8fafc" stroke="#334155" stroke-width="2"/><path d="M 32 30 Q 42 32 36 44 Z" fill="#1e293b"/><path d="M 32 26 Q 28 16 35 15" fill="none" stroke="#d97706" stroke-width="4" stroke-linecap="round"/><path d="M 56 26 Q 60 16 53 15" fill="none" stroke="#d97706" stroke-width="4" stroke-linecap="round"/><ellipse cx="23" cy="36" rx="9" ry="5" fill="#f8fafc" stroke="#334155" transform="rotate(-20 23 36)"/><ellipse cx="65" cy="36" rx="9" ry="5" fill="#f8fafc" stroke="#334155" transform="rotate(20 65 36)"/><rect x="30" y="45" width="28" height="18" rx="9" fill="#fbcfe8" stroke="#f472b6" stroke-width="1.5"/><circle cx="38" cy="54" r="2.5" fill="#831843"/><circle cx="50" cy="54" r="2.5" fill="#831843"/><circle cx="35" cy="37" r="3.5" fill="#1e293b"/><circle cx="53" cy="37" r="3.5" fill="#1e293b"/></svg>`
+      },
+      {
+        id: "chicken", category: "farm", name_bm: "Ayam", name_en: "Chicken",
+        imageUrl: pexelsUrl(16232853),
+        render: () => `<svg viewBox="0 0 120 120" class="w-full h-full drop-shadow-sm"><ellipse cx="62" cy="74" rx="28" ry="24" fill="#fde047" stroke="#ca8a04" stroke-width="2"/><path d="M 52 66 Q 72 68 76 80 Q 56 86 52 66 Z" fill="#facc15" stroke="#ca8a04" stroke-width="2"/><path d="M 85 64 Q 102 54 94 76 Z" fill="#facc15" stroke="#ca8a04" stroke-width="2"/><line x1="52" y1="96" x2="52" y2="110" stroke="#ea580c" stroke-width="3.5"/><line x1="48" y1="110" x2="56" y2="110" stroke="#ea580c" stroke-width="3"/><line x1="72" y1="96" x2="72" y2="110" stroke="#ea580c" stroke-width="3.5"/><line x1="68" y1="110" x2="76" y2="110" stroke="#ea580c" stroke-width="3"/><circle cx="44" cy="46" r="16" fill="#fde047" stroke="#ca8a04" stroke-width="2"/><circle cx="39" cy="28" r="4.5" fill="#ef4444"/><circle cx="46" cy="27" r="5" fill="#ef4444"/><circle cx="52" cy="29" r="4" fill="#ef4444"/><polygon points="32,46 22,50 32,54" fill="#ea580c"/><ellipse cx="36" cy="56" rx="3.5" ry="5.5" fill="#ef4444"/><circle cx="41" cy="43" r="3.5" fill="#1e293b"/><circle cx="42" cy="42" r="1" fill="#fff"/></svg>`
+      },
+      {
+        id: "rooster", category: "farm", name_bm: "Ayam Jantan", name_en: "Rooster",
+        imageUrl: pexelsUrl(33809642),
+        render: () => `<svg viewBox="0 0 120 120" class="w-full h-full drop-shadow-sm"><path d="M 75 70 Q 110 32 98 78 Q 118 45 92 86 Q 106 60 84 90" fill="#047857" stroke="#065f46" stroke-width="2"/><ellipse cx="58" cy="74" rx="26" ry="22" fill="#b91c1c"/><path d="M 48 68 Q 68 64 72 82 Q 52 86 48 68 Z" fill="#d97706"/><line x1="50" y1="94" x2="50" y2="110" stroke="#d97706" stroke-width="3.5"/><line x1="66" y1="94" x2="66" y2="110" stroke="#d97706" stroke-width="3.5"/><path d="M 42 74 L 40 48 L 52 48 L 56 74 Z" fill="#ea580c"/><circle cx="46" cy="42" r="14" fill="#ea580c"/><path d="M 38 28 Q 42 16 46 26 Q 50 14 54 26 Q 58 18 60 29" fill="#dc2626" stroke="#b91c1c" stroke-width="2"/><polygon points="36,42 22,46 36,50" fill="#fbbf24"/><path d="M 36 50 C 32 64 42 66 40 54 Z" fill="#dc2626"/><circle cx="44" cy="40" r="3" fill="#1e293b"/></svg>`
+      },
+      {
+        id: "duck", category: "farm", name_bm: "Itik", name_en: "Duck",
+        imageUrl: pexelsUrl(30723220),
+        render: () => `<svg viewBox="0 0 120 120" class="w-full h-full drop-shadow-sm"><ellipse cx="60" cy="100" rx="44" ry="7" fill="#bae6fd" opacity="0.7"/><path d="M 32 78 C 32 64 56 60 84 66 C 96 70 98 84 80 92 C 55 96 32 94 32 78 Z" fill="#fef08a" stroke="#eab308" stroke-width="2"/><path d="M 52 72 Q 74 72 72 84 Q 52 86 52 72 Z" fill="#fde047" stroke="#ca8a04" stroke-width="2"/><circle cx="42" cy="46" r="16" fill="#fef08a" stroke="#eab308" stroke-width="2"/><path d="M 34 46 C 24 44 14 46 16 53 C 24 57 34 54 34 46 Z" fill="#f97316" stroke="#c2410c" stroke-width="1.5"/><circle cx="42" cy="42" r="3.5" fill="#1e293b"/><circle cx="43" cy="41" r="1" fill="#fff"/></svg>`
+      },
+      {
+        id: "goat", category: "farm", name_bm: "Kambing", name_en: "Goat",
+        imageUrl: pexelsUrl(37599195),
+        render: () => `<svg viewBox="0 0 120 120" class="w-full h-full drop-shadow-sm"><ellipse cx="62" cy="74" rx="30" ry="22" fill="#e2e8f0" stroke="#64748b" stroke-width="2"/><path d="M 90 68 Q 98 64 96 74" stroke="#64748b" stroke-width="5" stroke-linecap="round" fill="none"/><rect x="40" y="88" width="8" height="20" fill="#cbd5e1"/><rect x="40" y="104" width="8" height="4" fill="#334155"/><rect x="76" y="88" width="8" height="20" fill="#cbd5e1"/><rect x="76" y="104" width="8" height="4" fill="#334155"/><circle cx="40" cy="46" r="18" fill="#e2e8f0" stroke="#64748b" stroke-width="2"/><path d="M 38 32 Q 44 14 54 18" fill="none" stroke="#78350f" stroke-width="4.5" stroke-linecap="round"/><path d="M 44 32 Q 52 14 62 20" fill="none" stroke="#78350f" stroke-width="4.5" stroke-linecap="round"/><polygon points="32,60 36,72 40,60" fill="#94a3b8"/><ellipse cx="32" cy="52" rx="9" ry="7" fill="#f1f5f9"/><circle cx="30" cy="52" r="2" fill="#475569"/><circle cx="40" cy="44" r="3.5" fill="#1e293b"/></svg>`
+      },
+      {
+        id: "sheep", category: "farm", name_bm: "Biri-biri", name_en: "Sheep",
+        imageUrl: pexelsUrl(35608813),
+        render: () => `<svg viewBox="0 0 120 120" class="w-full h-full drop-shadow-sm"><g fill="#f8fafc" stroke="#cbd5e1" stroke-width="3"><circle cx="50" cy="65" r="18"/><circle cx="70" cy="65" r="18"/><circle cx="85" cy="75" r="16"/><circle cx="70" cy="85" r="18"/><circle cx="50" cy="85" r="18"/><circle cx="35" cy="75" r="16"/><circle cx="60" cy="75" r="22" fill="#f8fafc" stroke="none"/></g><rect x="42" y="94" width="7" height="15" fill="#1e293b" rx="3"/><rect x="72" y="94" width="7" height="15" fill="#1e293b" rx="3"/><ellipse cx="36" cy="52" rx="14" ry="17" fill="#334155"/><ellipse cx="23" cy="46" rx="8" ry="4" fill="#334155" transform="rotate(-25 23 46)"/><ellipse cx="49" cy="46" rx="8" ry="4" fill="#334155" transform="rotate(25 49 46)"/><circle cx="36" cy="38" r="8" fill="#f8fafc"/><circle cx="30" cy="39" r="6" fill="#f8fafc"/><circle cx="42" cy="39" r="6" fill="#f8fafc"/><circle cx="31" cy="50" r="2.5" fill="#fff"/><circle cx="31" cy="50" r="1.3" fill="#000"/><circle cx="41" cy="50" r="2.5" fill="#fff"/><circle cx="41" cy="50" r="1.3" fill="#000"/></svg>`
+      },
+      {
+        id: "horse", category: "farm", name_bm: "Kuda", name_en: "Horse",
+        imageUrl: pexelsUrl(32711198),
+        render: () => `<svg viewBox="0 0 120 120" class="w-full h-full drop-shadow-sm"><path d="M 88 74 C 104 84 100 106 94 112" fill="none" stroke="#451a03" stroke-width="7" stroke-linecap="round"/><ellipse cx="60" cy="76" rx="32" ry="22" fill="#9a3412"/><rect x="36" y="88" width="8" height="24" fill="#7c2d12"/><rect x="36" y="107" width="8" height="5" fill="#1e293b"/><rect x="76" y="88" width="8" height="24" fill="#7c2d12"/><rect x="76" y="107" width="8" height="5" fill="#1e293b"/><path d="M 38 78 L 44 42 L 56 42 L 62 78 Z" fill="#9a3412"/><path d="M 52 32 Q 60 50 62 65" stroke="#451a03" stroke-width="7" stroke-linecap="round" fill="none"/><ellipse cx="36" cy="38" rx="14" ry="18" fill="#9a3412" transform="rotate(-20 36 38)"/><polygon points="40,22 43,12 48,22" fill="#7c2d12"/><ellipse cx="26" cy="46" rx="7" ry="6" fill="#7c2d12"/><circle cx="25" cy="47" r="1.8" fill="#1e293b"/><circle cx="38" cy="34" r="3.5" fill="#1e293b"/><circle cx="39" cy="33" r="1" fill="#fff"/></svg>`
+      },
+      {
+        id: "rabbit", category: "farm", name_bm: "Arnab", name_en: "Rabbit",
+        imageUrl: pexelsUrl(4001296),
+        render: () => `<svg viewBox="0 0 120 120" class="w-full h-full drop-shadow-sm"><circle cx="86" cy="85" r="9" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="2"/><ellipse cx="58" cy="80" rx="28" ry="22" fill="#e2e8f0"/><ellipse cx="58" cy="82" rx="18" ry="14" fill="#ffffff"/><ellipse cx="42" cy="98" rx="12" ry="6" fill="#cbd5e1"/><ellipse cx="74" cy="98" rx="12" ry="6" fill="#cbd5e1"/><circle cx="56" cy="52" r="20" fill="#e2e8f0"/><ellipse cx="46" cy="22" rx="7" ry="20" fill="#e2e8f0"/><ellipse cx="46" cy="22" rx="4" ry="14" fill="#fbcfe8"/><ellipse cx="64" cy="22" rx="7" ry="20" fill="#e2e8f0"/><ellipse cx="64" cy="22" rx="4" ry="14" fill="#fbcfe8"/><circle cx="56" cy="56" r="3" fill="#f472b6"/><path d="M 56 59 L 53 63 M 56 59 L 59 63" stroke="#64748b" stroke-width="2"/><line x1="42" y1="56" x2="30" y2="55" stroke="#94a3b8" stroke-width="1.5"/><line x1="70" y1="56" x2="82" y2="55" stroke="#94a3b8" stroke-width="1.5"/><circle cx="48" cy="48" r="3.5" fill="#1e293b"/><circle cx="64" cy="48" r="3.5" fill="#1e293b"/></svg>`
+      },
+      {
+        id: "goose", category: "farm", name_bm: "Angsa", name_en: "Goose",
+        imageUrl: pexelsUrl(38738293),
+        render: () => `<svg viewBox="0 0 120 120" class="w-full h-full drop-shadow-sm"><ellipse cx="60" cy="100" rx="42" ry="6" fill="#bae6fd"/><path d="M 36 80 C 36 65 60 62 88 70 C 98 75 96 90 80 94 C 55 96 36 94 36 80 Z" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/><path d="M 46 80 C 44 60 40 40 44 26 C 48 26 54 45 54 80 Z" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/><circle cx="44" cy="26" r="10" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/><polygon points="38,26 22,29 38,33" fill="#f97316"/><circle cx="39" cy="25" r="3" fill="#ea580c"/><circle cx="43" cy="23" r="2.5" fill="#1e293b"/></svg>`
+      },
+      {
+        id: "donkey", category: "farm", name_bm: "Keldai", name_en: "Donkey",
+        imageUrl: pexelsUrl(18771835),
+        render: () => `<svg viewBox="0 0 120 120" class="w-full h-full drop-shadow-sm"><ellipse cx="62" cy="76" rx="30" ry="22" fill="#64748b"/><path d="M 90 74 Q 102 88 96 102" fill="none" stroke="#475569" stroke-width="4"/><rect x="42" y="88" width="7" height="22" fill="#475569"/><rect x="74" y="88" width="7" height="22" fill="#475569"/><circle cx="42" cy="46" r="18" fill="#64748b"/><ellipse cx="34" cy="20" rx="6" ry="18" fill="#64748b" transform="rotate(-15 34 20)"/><ellipse cx="34" cy="20" rx="3" ry="12" fill="#cbd5e1" transform="rotate(-15 34 20)"/><ellipse cx="48" cy="20" rx="6" ry="18" fill="#64748b" transform="rotate(15 48 20)"/><ellipse cx="48" cy="20" rx="3" ry="12" fill="#cbd5e1" transform="rotate(15 48 20)"/><ellipse cx="32" cy="52" rx="10" ry="8" fill="#e2e8f0"/><circle cx="28" cy="52" r="2" fill="#1e293b"/><circle cx="42" cy="42" r="3" fill="#1e293b"/></svg>`
+      },
+
+      // WILD ANIMALS (18)
+      {
+        id: "lion", category: "wild", name_bm: "Singa", name_en: "Lion",
+        imageUrl: pexelsUrl(25842082),
+        render: () => `<svg viewBox="0 0 120 120" class="w-full h-full drop-shadow-sm"><ellipse cx="60" cy="80" rx="30" ry="22" fill="#f59e0b"/><path d="M 88 78 Q 106 72 102 54" fill="none" stroke="#d97706" stroke-width="4" stroke-linecap="round"/><circle cx="102" cy="52" r="6" fill="#78350f"/><ellipse cx="42" cy="98" rx="10" ry="6" fill="#d97706"/><ellipse cx="78" cy="98" rx="10" ry="6" fill="#d97706"/><g fill="#78350f"><circle cx="58" cy="46" r="33"/><circle cx="34" cy="30" r="14"/><circle cx="82" cy="30" r="14"/><circle cx="30" cy="55" r="14"/><circle cx="86" cy="55" r="14"/><circle cx="44" cy="72" r="12"/><circle cx="72" cy="72" r="12"/></g><circle cx="58" cy="46" r="21" fill="#fbbf24"/><circle cx="40" cy="28" r="6" fill="#fbbf24"/><circle cx="76" cy="28" r="6" fill="#fbbf24"/><ellipse cx="58" cy="52" rx="10" ry="7" fill="#fef3c7"/><polygon points="58,50 53,46 63,46" fill="#78350f"/><circle cx="50" cy="42" r="3.5" fill="#1e293b"/><circle cx="66" cy="42" r="3.5" fill="#1e293b"/></svg>`
+      },
+      {
+        id: "tiger", category: "wild", name_bm: "Harimau", name_en: "Tiger",
+        imageUrl: pexelsUrl(27834731),
+        render: () => `<svg viewBox="0 0 120 120" class="w-full h-full drop-shadow-sm"><ellipse cx="60" cy="78" rx="32" ry="24" fill="#ea580c"/><path d="M 45 68 L 52 74 M 65 64 L 60 76 M 78 68 L 72 78" stroke="#18181b" stroke-width="3" stroke-linecap="round"/><ellipse cx="40" cy="98" rx="11" ry="6" fill="#c2410c"/><ellipse cx="80" cy="98" rx="11" ry="6" fill="#c2410c"/><circle cx="60" cy="46" r="24" fill="#f97316"/><circle cx="40" cy="28" r="8" fill="#ea580c"/><circle cx="40" cy="28" r="4" fill="#ffffff"/><circle cx="80" cy="28" r="8" fill="#ea580c"/><circle cx="80" cy="28" r="4" fill="#ffffff"/><path d="M 60 26 L 60 36 M 52 30 L 58 34 M 68 30 L 62 34" stroke="#18181b" stroke-width="2.5" stroke-linecap="round"/><ellipse cx="60" cy="54" rx="12" ry="8" fill="#ffffff"/><polygon points="60,52 55,48 65,48" fill="#dc2626"/><circle cx="50" cy="44" r="3.5" fill="#facc15"/><circle cx="50" cy="44" r="2" fill="#000"/><circle cx="70" cy="44" r="3.5" fill="#facc15"/><circle cx="70" cy="44" r="2" fill="#000"/></svg>`
+      },
+      {
+        id: "elephant", category: "wild", name_bm: "Gajah", name_en: "Elephant",
+        imageUrl: pexelsUrl(17081254),
+        render: () => `<svg viewBox="0 0 120 120" class="w-full h-full drop-shadow-sm"><ellipse cx="64" cy="74" rx="34" ry="26" fill="#94a3b8"/><rect x="42" y="86" width="12" height="24" rx="4" fill="#64748b"/><rect x="76" y="86" width="12" height="24" rx="4" fill="#64748b"/><circle cx="44" cy="46" r="20" fill="#94a3b8"/><ellipse cx="60" cy="44" rx="16" ry="22" fill="#cbd5e1" stroke="#94a3b8" stroke-width="2"/><path d="M 34 50 Q 20 62 25 78 Q 28 86 36 82" fill="none" stroke="#64748b" stroke-width="8" stroke-linecap="round"/><path d="M 36 58 Q 30 68 22 66" fill="none" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round"/><circle cx="40" cy="40" r="3" fill="#1e293b"/><circle cx="41" cy="39" r="1" fill="#fff"/></svg>`
+      },
+      {
+        id: "giraffe", category: "wild", name_bm: "Zirafah", name_en: "Giraffe",
+        imageUrl: pexelsUrl(34220435),
+        render: () => `<svg viewBox="0 0 120 120" class="w-full h-full drop-shadow-sm"><ellipse cx="70" cy="85" rx="26" ry="18" fill="#facc15"/><line x1="56" y1="95" x2="56" y2="114" stroke="#eab308" stroke-width="4"/><line x1="80" y1="95" x2="80" y2="114" stroke="#eab308" stroke-width="4"/><path d="M 52 86 L 40 30 L 52 30 L 66 86 Z" fill="#facc15"/><rect x="44" y="38" width="6" height="6" rx="2" fill="#b45309"/><rect x="52" y="52" width="7" height="7" rx="2" fill="#b45309"/><rect x="46" y="68" width="8" height="7" rx="2" fill="#b45309"/><rect x="68" y="80" width="7" height="7" rx="2" fill="#b45309"/><ellipse cx="42" cy="24" rx="11" ry="9" fill="#facc15"/><line x1="38" y1="18" x2="36" y2="10" stroke="#b45309" stroke-width="2.5"/><circle cx="36" cy="9" r="2.5" fill="#78350f"/><line x1="44" y1="18" x2="46" y2="10" stroke="#b45309" stroke-width="2.5"/><circle cx="46" cy="9" r="2.5" fill="#78350f"/><ellipse cx="34" cy="26" rx="6" ry="5" fill="#78350f"/><circle cx="42" cy="21" r="2.5" fill="#1e293b"/></svg>`
+      },
+      {
+        id: "zebra", category: "wild", name_bm: "Kuda Belang", name_en: "Zebra",
+        imageUrl: pexelsUrl(39440659),
+        render: () => `<svg viewBox="0 0 120 120" class="w-full h-full drop-shadow-sm"><path d="M 88 74 Q 100 86 96 102" fill="none" stroke="#09090b" stroke-width="3.5"/><ellipse cx="60" cy="76" rx="30" ry="22" fill="#ffffff" stroke="#18181b" stroke-width="2"/><path d="M 48 60 L 52 90 M 58 56 L 62 94 M 68 58 L 70 92 M 78 62 L 78 88" stroke="#18181b" stroke-width="3" stroke-linecap="round"/><rect x="42" y="90" width="7" height="22" fill="#ffffff" stroke="#18181b" stroke-width="1.5"/><rect x="42" y="106" width="7" height="6" fill="#18181b"/><rect x="74" y="90" width="7" height="22" fill="#ffffff" stroke="#18181b" stroke-width="1.5"/><rect x="74" y="106" width="7" height="6" fill="#18181b"/><path d="M 40 76 L 44 42 L 56 42 L 62 76 Z" fill="#ffffff"/><path d="M 48 34 Q 54 48 58 60" stroke="#18181b" stroke-width="5" stroke-linecap="round" fill="none"/><circle cx="40" cy="42" r="16" fill="#ffffff" stroke="#18181b" stroke-width="1.5"/><ellipse cx="30" cy="48" rx="8" ry="6" fill="#18181b"/><circle cx="42" cy="38" r="3" fill="#1e293b"/></svg>`
+      },
+      {
+        id: "monkey", category: "wild", name_bm: "Monyet", name_en: "Monkey",
+        imageUrl: pexelsUrl(13463445),
+        render: () => `<svg viewBox="0 0 120 120" class="w-full h-full drop-shadow-sm"><path d="M 82 82 C 104 88 116 66 102 52 C 90 40 92 56 94 60" fill="none" stroke="#78350f" stroke-width="6" stroke-linecap="round"/><ellipse cx="60" cy="80" rx="26" ry="22" fill="#92400e"/><ellipse cx="60" cy="82" rx="16" ry="15" fill="#fde68a"/><ellipse cx="40" cy="96" rx="9" ry="6" fill="#78350f"/><ellipse cx="80" cy="96" rx="9" ry="6" fill="#78350f"/><circle cx="60" cy="46" r="22" fill="#92400e"/><circle cx="38" cy="44" r="9" fill="#92400e"/><circle cx="38" cy="44" r="5" fill="#fde68a"/><circle cx="82" cy="44" r="9" fill="#92400e"/><circle cx="82" cy="44" r="5" fill="#fde68a"/><path d="M 60 48 C 50 36 44 48 50 56 C 54 62 66 62 70 56 C 76 48 70 36 60 48 Z" fill="#fde68a"/><circle cx="57" cy="52" r="1.5" fill="#78350f"/><circle cx="63" cy="52" r="1.5" fill="#78350f"/><path d="M 54 57 Q 60 62 66 57" stroke="#78350f" stroke-width="2" stroke-linecap="round" fill="none"/><circle cx="53" cy="46" r="3.5" fill="#1e293b"/><circle cx="67" cy="46" r="3.5" fill="#1e293b"/></svg>`
+      },
+      {
+        id: "bear", category: "wild", name_bm: "Beruang", name_en: "Bear",
+        imageUrl: pexelsUrl(32739864),
+        render: () => `<svg viewBox="0 0 120 120" class="w-full h-full drop-shadow-sm"><ellipse cx="60" cy="80" rx="34" ry="26" fill="#78350f"/><ellipse cx="60" cy="84" rx="20" ry="18" fill="#92400e"/><circle cx="36" cy="98" r="10" fill="#581c87" opacity="0.1"/><ellipse cx="36" cy="98" rx="12" ry="7" fill="#5c2607"/><ellipse cx="84" cy="98" rx="12" ry="7" fill="#5c2607"/><circle cx="60" cy="46" r="25" fill="#78350f"/><circle cx="40" cy="26" r="9" fill="#78350f"/><circle cx="40" cy="26" r="5" fill="#d97706"/><circle cx="80" cy="26" r="9" fill="#78350f"/><circle cx="80" cy="26" r="5" fill="#d97706"/><ellipse cx="60" cy="54" rx="13" ry="10" fill="#fde68a"/><ellipse cx="60" cy="50" rx="6" ry="4" fill="#18181b"/><circle cx="50" cy="42" r="3.5" fill="#18181b"/><circle cx="70" cy="42" r="3.5" fill="#18181b"/></svg>`
+      },
+      {
+        id: "panda", category: "wild", name_bm: "Panda", name_en: "Panda",
+        imageUrl: pexelsUrl(33797167),
+        render: () => `<svg viewBox="0 0 120 120" class="w-full h-full drop-shadow-sm"><ellipse cx="60" cy="80" rx="32" ry="25" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/><path d="M 28 86 Q 42 70 60 70 Q 78 70 92 86 L 86 102 L 34 102 Z" fill="#18181b"/><circle cx="60" cy="46" r="25" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/><circle cx="38" cy="26" r="9" fill="#18181b"/><circle cx="82" cy="26" r="9" fill="#18181b"/><ellipse cx="48" cy="44" rx="7" ry="9" fill="#18181b" transform="rotate(-15 48 44)"/><ellipse cx="72" cy="44" rx="7" ry="9" fill="#18181b" transform="rotate(15 72 44)"/><circle cx="48" cy="43" r="2.5" fill="#ffffff"/><circle cx="48" cy="43" r="1.3" fill="#000000"/><circle cx="72" cy="43" r="2.5" fill="#ffffff"/><circle cx="72" cy="43" r="1.3" fill="#000000"/><ellipse cx="60" cy="54" rx="4" ry="3" fill="#18181b"/><path d="M 56 59 Q 60 62 64 59" stroke="#18181b" stroke-width="2" fill="none"/></svg>`
+      },
+      {
+        id: "deer", category: "wild", name_bm: "Rusa", name_en: "Deer",
+        imageUrl: pexelsUrl(3736574),
+        render: () => `<svg viewBox="0 0 120 120" class="w-full h-full drop-shadow-sm"><ellipse cx="64" cy="78" rx="28" ry="20" fill="#b45309"/><circle cx="60" cy="74" r="2" fill="#fef3c7"/><circle cx="70" cy="76" r="2" fill="#fef3c7"/><circle cx="78" cy="74" r="2" fill="#fef3c7"/><rect x="46" y="92" width="6" height="22" fill="#92400e"/><rect x="74" y="92" width="6" height="22" fill="#92400e"/><circle cx="42" cy="46" r="16" fill="#b45309"/><path d="M 38 32 L 34 14 M 35 22 L 28 16 M 46 32 L 50 14 M 49 22 L 56 16" stroke="#78350f" stroke-width="3" stroke-linecap="round"/><ellipse cx="26" cy="38" rx="8" ry="4" fill="#92400e" transform="rotate(-30 26 38)"/><ellipse cx="56" cy="38" rx="8" ry="4" fill="#92400e" transform="rotate(30 56 38)"/><ellipse cx="36" cy="54" rx="7" ry="5" fill="#fef3c7"/><circle cx="34" cy="52" r="2" fill="#18181b"/><circle cx="42" cy="42" r="4" fill="#18181b"/><circle cx="43" cy="40.5" r="1.5" fill="#fff"/></svg>`
+      },
+      {
+        id: "fox", category: "wild", name_bm: "Musang", name_en: "Fox",
+        imageUrl: pexelsUrl(32399356),
+        render: () => `<svg viewBox="0 0 120 120" class="w-full h-full drop-shadow-sm"><path d="M 78 82 C 112 86 118 55 96 46 Z" fill="#ea580c"/><path d="M 108 55 C 114 53 104 46 Z" fill="#ffffff"/><ellipse cx="56" cy="78" rx="28" ry="20" fill="#f97316"/><rect x="38" y="90" width="7" height="20" fill="#18181b"/><rect x="68" y="90" width="7" height="20" fill="#18181b"/><polygon points="56,66 32,44 80,44" fill="#f97316"/><polygon points="56,66 32,44 46,44" fill="#ffffff"/><polygon points="56,66 80,44 66,44" fill="#ffffff"/><polygon points="36,44 32,20 48,36" fill="#18181b"/><polygon points="76,44 80,20 64,36" fill="#18181b"/><circle cx="56" cy="65" r="3" fill="#18181b"/><ellipse cx="44" cy="48" rx="3.5" ry="2" fill="#18181b" transform="rotate(-15 44 48)"/><ellipse cx="68" cy="48" rx="3.5" ry="2" fill="#18181b" transform="rotate(15 68 48)"/></svg>`
+      },
+      {
+        id: "wolf", category: "wild", name_bm: "Serigala", name_en: "Wolf",
+        imageUrl: pexelsUrl(7449039),
+        render: () => `<svg viewBox="0 0 120 120" class="w-full h-full drop-shadow-sm"><path d="M 86 78 Q 106 82 98 100" fill="none" stroke="#475569" stroke-width="7" stroke-linecap="round"/><ellipse cx="58" cy="78" rx="30" ry="22" fill="#64748b"/><rect x="38" y="92" width="8" height="20" fill="#475569"/><rect x="72" y="92" width="8" height="20" fill="#475569"/><circle cx="50" cy="46" r="22" fill="#64748b"/><polygon points="36,32 30,14 46,26" fill="#334155"/><polygon points="64,32 70,14 54,26" fill="#334155"/><polygon points="50,60 40,48 60,48" fill="#cbd5e1"/><circle cx="50" cy="58" r="3" fill="#0f172a"/><circle cx="42" cy="42" r="3.5" fill="#f59e0b"/><circle cx="42" cy="42" r="1.5" fill="#000"/><circle cx="58" cy="42" r="3.5" fill="#f59e0b"/><circle cx="58" cy="42" r="1.5" fill="#000"/></svg>`
+      },
+      {
+        id: "hippo", category: "wild", name_bm: "Badak Air", name_en: "Hippopotamus",
+        imageUrl: pexelsUrl(36497813),
+        render: () => `<svg viewBox="0 0 120 120" class="w-full h-full drop-shadow-sm"><ellipse cx="64" cy="75" rx="36" ry="28" fill="#64748b"/><rect x="40" y="92" width="12" height="18" rx="4" fill="#475569"/><rect x="76" y="92" width="12" height="18" rx="4" fill="#475569"/><circle cx="42" cy="50" r="20" fill="#64748b"/><circle cx="34" cy="30" r="4.5" fill="#475569"/><circle cx="52" cy="30" r="4.5" fill="#475569"/><ellipse cx="32" cy="62" rx="20" ry="14" fill="#94a3b8"/><circle cx="24" cy="58" r="3" fill="#334155"/><circle cx="38" cy="58" r="3" fill="#334155"/><circle cx="36" cy="42" r="3.5" fill="#1e293b"/><circle cx="48" cy="42" r="3.5" fill="#1e293b"/></svg>`
+      },
+      {
+        id: "rhino", category: "wild", name_bm: "Badak Sumbu", name_en: "Rhinoceros",
+        imageUrl: pexelsUrl(1524627),
+        render: () => `<svg viewBox="0 0 120 120" class="w-full h-full drop-shadow-sm"><ellipse cx="64" cy="75" rx="34" ry="25" fill="#64748b"/><rect x="42" y="90" width="11" height="20" rx="3" fill="#475569"/><rect x="78" y="90" width="11" height="20" rx="3" fill="#475569"/><polygon points="56,40 28,62 56,72" fill="#64748b"/><path d="M 28 62 Q 16 52 20 40 Q 28 50 34 58 Z" fill="#f8fafc" stroke="#475569" stroke-width="1.5"/><path d="M 38 54 Q 32 46 36 38 Q 42 46 44 50 Z" fill="#f8fafc" stroke="#475569" stroke-width="1.5"/><polygon points="54,36 58,26 62,38" fill="#475569"/><circle cx="46" cy="48" r="3" fill="#0f172a"/></svg>`
+      },
+      {
+        id: "crocodile", category: "wild", name_bm: "Buaya", name_en: "Crocodile",
+        imageUrl: pexelsUrl(37636513),
+        render: () => `<svg viewBox="0 0 120 120" class="w-full h-full drop-shadow-sm"><ellipse cx="60" cy="72" rx="42" ry="15" fill="#15803d"/><polygon points="45,57 50,50 55,57" fill="#166534"/><polygon points="60,57 65,49 70,57" fill="#166534"/><polygon points="75,57 80,51 85,57" fill="#166534"/><path d="M 96 74 Q 115 78 110 90" fill="none" stroke="#15803d" stroke-width="7" stroke-linecap="round"/><rect x="40" y="80" width="12" height="12" rx="3" fill="#166534"/><rect x="74" y="80" width="12" height="12" rx="3" fill="#166534"/><path d="M 40 64 L 10 70 L 40 76 Z" fill="#15803d"/><polygon points="18,70 21,66 24,70" fill="#ffffff"/><polygon points="27,70 30,66 33,70" fill="#ffffff"/><circle cx="36" cy="59" r="4.5" fill="#15803d"/><circle cx="36" cy="58" r="2" fill="#facc15"/></svg>`
+      },
+      {
+        id: "kangaroo", category: "wild", name_bm: "Kanggaru", name_en: "Kangaroo",
+        imageUrl: pexelsUrl(27110777),
+        render: () => `<svg viewBox="0 0 120 120" class="w-full h-full drop-shadow-sm"><path d="M 78 86 Q 106 102 110 114" fill="none" stroke="#b45309" stroke-width="8" stroke-linecap="round"/><path d="M 50 54 Q 72 60 74 90 Q 56 102 44 86 Z" fill="#d97706"/><ellipse cx="58" cy="106" rx="18" ry="6" fill="#b45309"/><rect x="40" y="66" width="10" height="4" rx="2" fill="#b45309"/><ellipse cx="40" cy="38" rx="10" ry="14" fill="#d97706" transform="rotate(-25 40 38)"/><ellipse cx="32" cy="18" rx="4" ry="14" fill="#b45309" transform="rotate(-15 32 18)"/><ellipse cx="44" cy="20" rx="4" ry="14" fill="#b45309" transform="rotate(15 44 20)"/><circle cx="30" cy="46" r="2.5" fill="#18181b"/><circle cx="40" cy="34" r="3" fill="#18181b"/></svg>`
+      },
+      {
+        id: "camel", category: "wild", name_bm: "Unta", name_en: "Camel",
+        imageUrl: pexelsUrl(17877123),
+        render: () => `<svg viewBox="0 0 120 120" class="w-full h-full drop-shadow-sm"><path d="M 38 78 Q 42 54 58 52 Q 74 54 78 78 Q 80 92 40 92 Z" fill="#d97706"/><ellipse cx="58" cy="50" rx="14" ry="16" fill="#b45309"/><rect x="42" y="88" width="6" height="24" fill="#b45309"/><rect x="70" y="88" width="6" height="24" fill="#b45309"/><path d="M 42 82 Q 28 62 34 38 L 44 42 Q 38 64 50 82 Z" fill="#d97706"/><ellipse cx="32" cy="34" rx="10" ry="7" fill="#d97706"/><circle cx="24" cy="36" r="2.5" fill="#78350f"/><circle cx="34" cy="30" r="2.5" fill="#18181b"/></svg>`
+      },
+      {
+        id: "koala", category: "wild", name_bm: "Koala", name_en: "Koala",
+        imageUrl: pexelsUrl(14971555),
+        render: () => `<svg viewBox="0 0 120 120" class="w-full h-full drop-shadow-sm"><ellipse cx="60" cy="80" rx="28" ry="24" fill="#94a3b8"/><ellipse cx="60" cy="82" rx="18" ry="15" fill="#f1f5f9"/><ellipse cx="40" cy="94" rx="9" ry="7" fill="#64748b"/><ellipse cx="80" cy="94" rx="9" ry="7" fill="#64748b"/><circle cx="60" cy="48" r="22" fill="#94a3b8"/><circle cx="34" cy="34" r="14" fill="#64748b"/><circle cx="34" cy="34" r="9" fill="#f8fafc"/><circle cx="86" cy="34" r="14" fill="#64748b"/><circle cx="86" cy="34" r="9" fill="#f8fafc"/><ellipse cx="60" cy="54" rx="7" ry="11" fill="#1e293b"/><circle cx="48" cy="44" r="3" fill="#1e293b"/><circle cx="72" cy="44" r="3" fill="#1e293b"/></svg>`
+      },
+      {
+        id: "gorilla", category: "wild", name_bm: "Gorila", name_en: "Gorilla",
+        imageUrl: pexelsUrl(36804638),
+        render: () => `<svg viewBox="0 0 120 120" class="w-full h-full drop-shadow-sm"><ellipse cx="60" cy="80" rx="34" ry="26" fill="#1e293b"/><ellipse cx="60" cy="82" rx="20" ry="18" fill="#334155"/><ellipse cx="30" cy="88" rx="10" ry="18" fill="#0f172a"/><ellipse cx="90" cy="88" rx="10" ry="18" fill="#0f172a"/><path d="M 44 48 C 44 26 76 26 76 48 Z" fill="#1e293b"/><rect x="42" y="44" width="36" height="8" rx="4" fill="#0f172a"/><circle cx="50" cy="48" r="2.5" fill="#f8fafc"/><circle cx="70" cy="48" r="2.5" fill="#f8fafc"/><ellipse cx="60" cy="58" rx="8" ry="5" fill="#0f172a"/><circle cx="56" cy="58" r="2" fill="#000"/><circle cx="64" cy="58" r="2" fill="#000"/></svg>`
+      },
+
+      // BIRDS (10)
+      {
+        id: "parrot", category: "birds", name_bm: "Burung Nuri", name_en: "Parrot",
+        imageUrl: pexelsUrl(28863971),
+        render: () => `<svg viewBox="0 0 120 120" class="w-full h-full drop-shadow-sm"><path d="M 68 78 L 86 116 L 74 116 Z" fill="#0284c7"/><path d="M 64 78 L 76 112 L 68 112 Z" fill="#e11d48"/><ellipse cx="56" cy="68" rx="20" ry="24" fill="#16a34a"/><path d="M 48 58 Q 72 62 66 84 Q 48 84 48 58 Z" fill="#dc2626"/><path d="M 52 74 Q 68 76 64 88 Q 50 88 52 74 Z" fill="#2563eb"/><circle cx="48" cy="38" r="16" fill="#16a34a"/><path d="M 38 34 C 24 36 26 50 36 48 Z" fill="#f59e0b"/><circle cx="46" cy="34" r="5.5" fill="#f8fafc"/><circle cx="46" cy="34" r="2.5" fill="#0f172a"/></svg>`
+      },
+      {
+        id: "owl", category: "birds", name_bm: "Burung Hantu", name_en: "Owl",
+        imageUrl: pexelsUrl(25559342),
+        render: () => `<svg viewBox="0 0 120 120" class="w-full h-full drop-shadow-sm"><rect x="20" y="100" width="80" height="8" rx="4" fill="#78350f"/><ellipse cx="60" cy="74" rx="26" ry="28" fill="#854d0e"/><ellipse cx="60" cy="78" rx="16" ry="18" fill="#fef3c7"/><path d="M 54 72 Q 60 76 66 72 M 52 82 Q 60 86 68 82" stroke="#d97706" stroke-width="2" fill="none"/><polygon points="40,36 34,18 48,28" fill="#713f12"/><polygon points="80,36 86,18 72,28" fill="#713f12"/><circle cx="60" cy="46" r="22" fill="#854d0e"/><circle cx="48" cy="46" r="10" fill="#fef3c7"/><circle cx="48" cy="46" r="7" fill="#facc15"/><circle cx="48" cy="46" r="4" fill="#0f172a"/><circle cx="72" cy="46" r="10" fill="#fef3c7"/><circle cx="72" cy="46" r="7" fill="#facc15"/><circle cx="72" cy="46" r="4" fill="#0f172a"/><polygon points="60,50 56,58 64,58" fill="#ea580c"/></svg>`
+      },
+      {
+        id: "eagle", category: "birds", name_bm: "Burung Helang", name_en: "Eagle",
+        imageUrl: pexelsUrl(14617656),
+        render: () => `<svg viewBox="0 0 120 120" class="w-full h-full drop-shadow-sm"><ellipse cx="60" cy="76" rx="26" ry="24" fill="#451a03"/><rect x="48" y="96" width="6" height="12" fill="#d97706"/><rect x="66" y="96" width="6" height="12" fill="#d97706"/><path d="M 40 56 C 36 32 76 30 78 56 C 70 60 48 60 40 56 Z" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/><path d="M 42 44 C 28 44 26 60 38 54 Z" fill="#f59e0b"/><circle cx="50" cy="42" r="3.5" fill="#facc15"/><circle cx="50" cy="42" r="2" fill="#0f172a"/></svg>`
+      },
+      {
+        id: "flamingo", category: "birds", name_bm: "Flamingo", name_en: "Flamingo",
+        imageUrl: pexelsUrl(37111071),
+        render: () => `<svg viewBox="0 0 120 120" class="w-full h-full drop-shadow-sm"><line x1="62" y1="84" x2="62" y2="114" stroke="#f43f5e" stroke-width="3"/><path d="M 68 84 L 78 96 L 70 102" fill="none" stroke="#f43f5e" stroke-width="3"/><ellipse cx="66" cy="74" rx="18" ry="14" fill="#fb7185"/><path d="M 52 74 C 40 60 44 32 38 28 C 34 26 30 36 34 46" fill="none" stroke="#fb7185" stroke-width="6" stroke-linecap="round"/><circle cx="36" cy="28" r="8" fill="#fb7185"/><path d="M 32 28 C 22 28 20 40 24 44 Z" fill="#fda4af"/><path d="M 24 38 C 21 40 22 43 25 43 Z" fill="#1e293b"/><circle cx="34" cy="26" r="2" fill="#1e293b"/></svg>`
+      },
+      {
+        id: "penguin", category: "birds", name_bm: "Penguin", name_en: "Penguin",
+        imageUrl: pexelsUrl(36732833),
+        render: () => `<svg viewBox="0 0 120 120" class="w-full h-full drop-shadow-sm"><ellipse cx="60" cy="72" rx="26" ry="32" fill="#0f172a"/><ellipse cx="60" cy="75" rx="18" ry="24" fill="#ffffff"/><ellipse cx="32" cy="70" rx="6" ry="16" fill="#0f172a" transform="rotate(15 32 70)"/><ellipse cx="88" cy="70" rx="6" ry="16" fill="#0f172a" transform="rotate(-15 88 70)"/><ellipse cx="48" cy="104" rx="10" ry="5" fill="#ea580c"/><ellipse cx="72" cy="104" rx="10" ry="5" fill="#ea580c"/><circle cx="60" cy="38" r="18" fill="#0f172a"/><circle cx="48" cy="40" r="4" fill="#fb923c" opacity="0.6"/><circle cx="72" cy="40" r="4" fill="#fb923c" opacity="0.6"/><polygon points="60,38 54,46 66,46" fill="#ea580c"/><circle cx="52" cy="34" r="3" fill="#ffffff"/><circle cx="52" cy="34" r="1.5" fill="#000"/><circle cx="68" cy="34" r="3" fill="#ffffff"/><circle cx="68" cy="34" r="1.5" fill="#000"/></svg>`
+      },
+      {
+        id: "peacock", category: "birds", name_bm: "Burung Merak", name_en: "Peacock",
+        imageUrl: pexelsUrl(4618412),
+        render: () => `<svg viewBox="0 0 120 120" class="w-full h-full drop-shadow-sm"><g><ellipse cx="60" cy="55" rx="46" ry="40" fill="#065f46"/><circle cx="34" cy="35" r="7" fill="#0284c7"/><circle cx="34" cy="35" r="3" fill="#fbbf24"/><circle cx="60" cy="24" r="7" fill="#0284c7"/><circle cx="60" cy="24" r="3" fill="#fbbf24"/><circle cx="86" cy="35" r="7" fill="#0284c7"/><circle cx="86" cy="35" r="3" fill="#fbbf24"/></g><ellipse cx="60" cy="78" rx="16" ry="22" fill="#1d4ed8"/><circle cx="60" cy="52" r="11" fill="#1d4ed8"/><line x1="60" y1="41" x2="54" y2="32" stroke="#0284c7" stroke-width="2"/><circle cx="54" cy="31" r="2.5" fill="#065f46"/><line x1="60" y1="41" x2="66" y2="32" stroke="#0284c7" stroke-width="2"/><circle cx="66" cy="31" r="2.5" fill="#065f46"/><polygon points="60,54 56,60 64,60" fill="#facc15"/><circle cx="56" cy="50" r="2" fill="#fff"/></svg>`
+      },
+      {
+        id: "ostrich", category: "birds", name_bm: "Burung Unta", name_en: "Ostrich",
+        imageUrl: pexelsUrl(7564762),
+        render: () => `<svg viewBox="0 0 120 120" class="w-full h-full drop-shadow-sm"><line x1="56" y1="84" x2="54" y2="114" stroke="#d97706" stroke-width="3.5"/><line x1="70" y1="84" x2="74" y2="114" stroke="#d97706" stroke-width="3.5"/><ellipse cx="62" cy="72" rx="24" ry="20" fill="#18181b"/><path d="M 80 66 Q 96 60 92 76 Z" fill="#ffffff"/><path d="M 48 72 Q 44 42 42 22" fill="none" stroke="#fed7aa" stroke-width="6" stroke-linecap="round"/><circle cx="42" cy="20" r="9" fill="#fed7aa"/><polygon points="36,20 24,22 36,24" fill="#fb923c"/><circle cx="42" cy="18" r="3.5" fill="#18181b"/></svg>`
+      },
+      {
+        id: "pigeon", category: "birds", name_bm: "Burung Merpati", name_en: "Pigeon",
+        imageUrl: pexelsUrl(6438048),
+        render: () => `<svg viewBox="0 0 120 120" class="w-full h-full drop-shadow-sm"><ellipse cx="60" cy="72" rx="25" ry="20" fill="#94a3b8"/><path d="M 50 62 Q 74 62 82 76 Q 60 84 50 62 Z" fill="#64748b"/><line x1="64" y1="70" x2="76" y2="74" stroke="#18181b" stroke-width="2.5"/><line x1="60" y1="76" x2="72" y2="80" stroke="#18181b" stroke-width="2.5"/><line x1="52" y1="92" x2="52" y2="106" stroke="#f43f5e" stroke-width="3"/><line x1="68" y1="92" x2="68" y2="106" stroke="#f43f5e" stroke-width="3"/><circle cx="42" cy="46" r="14" fill="#94a3b8"/><path d="M 44 48 C 42 54 48 56 50 50" stroke="#10b981" stroke-width="3" fill="none"/><polygon points="32,46 22,48 32,50" fill="#475569"/><circle cx="31" cy="46" r="1.5" fill="#ffffff"/><circle cx="40" cy="42" r="3.5" fill="#f97316"/><circle cx="40" cy="42" r="1.5" fill="#000"/></svg>`
+      },
+      {
+        id: "pelican", category: "birds", name_bm: "Burung Pelikan", name_en: "Pelican",
+        imageUrl: pexelsUrl(18016138),
+        render: () => `<svg viewBox="0 0 120 120" class="w-full h-full drop-shadow-sm"><ellipse cx="64" cy="76" rx="26" ry="22" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/><circle cx="46" cy="46" r="16" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/><path d="M 40 46 L 8 48 C 12 68 36 68 42 54 Z" fill="#fbbf24"/><path d="M 12 50 C 16 66 34 66 38 52 Z" fill="#f59e0b" opacity="0.6"/><circle cx="44" cy="40" r="3" fill="#1e293b"/></svg>`
+      },
+      {
+        id: "woodpecker", category: "birds", name_bm: "Burung Belatuk", name_en: "Woodpecker",
+        imageUrl: pexelsUrl(4870289),
+        render: () => `<svg viewBox="0 0 120 120" class="w-full h-full drop-shadow-sm"><rect x="76" y="10" width="18" height="100" fill="#78350f" rx="3"/><ellipse cx="56" cy="65" rx="16" ry="24" fill="#18181b" transform="rotate(-15 56 65)"/><ellipse cx="52" cy="66" rx="10" ry="18" fill="#f8fafc" transform="rotate(-15 52 66)"/><circle cx="48" cy="38" r="13" fill="#18181b"/><polygon points="46,30 38,16 54,26" fill="#dc2626"/><polygon points="56,38 78,40 56,44" fill="#64748b"/><circle cx="46" cy="36" r="2.5" fill="#facc15"/></svg>`
+      },
+
+      // SEA & WATER ANIMALS (10)
+      {
+        id: "fish", category: "sea", name_bm: "Ikan", name_en: "Fish",
+        imageUrl: pexelsUrl(37659290),
+        render: () => `<svg viewBox="0 0 120 120" class="w-full h-full drop-shadow-sm"><polygon points="86,60 112,40 106,60 112,80" fill="#f97316"/><polygon points="55,38 65,24 75,38" fill="#ea580c"/><polygon points="55,82 65,96 75,82" fill="#ea580c"/><ellipse cx="60" cy="60" rx="34" ry="22" fill="#fb923c"/><path d="M 52 40 Q 56 60 52 80" stroke="#ffffff" stroke-width="6" stroke-linecap="round" fill="none"/><path d="M 72 44 Q 76 60 72 76" stroke="#ffffff" stroke-width="5" stroke-linecap="round" fill="none"/><circle cx="38" cy="54" r="6" fill="#ffffff"/><circle cx="36" cy="54" r="3.5" fill="#0f172a"/><path d="M 28 64 Q 34 68 38 64" stroke="#c2410c" stroke-width="2.5" stroke-linecap="round" fill="none"/></svg>`
+      },
+      {
+        id: "dolphin", category: "sea", name_bm: "Ikan Lumba-lumba", name_en: "Dolphin",
+        imageUrl: pexelsUrl(17528249),
+        render: () => `<svg viewBox="0 0 120 120" class="w-full h-full drop-shadow-sm"><path d="M 22 66 C 30 38 72 32 102 68 C 84 66 54 74 38 74 Z" fill="#0284c7"/><path d="M 38 68 C 50 68 70 64 88 70 C 66 76 46 76 38 68 Z" fill="#e0f2fe"/><path d="M 58 40 Q 64 26 76 34 Q 68 42 66 45 Z" fill="#0369a1"/><polygon points="100,68 114,60 108,70 116,80 102,74" fill="#0284c7"/><ellipse cx="22" cy="65" rx="6" ry="4" fill="#0284c7"/><circle cx="34" cy="58" r="2.5" fill="#0f172a"/></svg>`
+      },
+      {
+        id: "whale", category: "sea", name_bm: "Ikan Paus", name_en: "Whale",
+        imageUrl: pexelsUrl(5045962),
+        render: () => `<svg viewBox="0 0 120 120" class="w-full h-full drop-shadow-sm"><path d="M 44 32 Q 38 16 30 18 M 44 32 Q 46 12 46 10 M 44 32 Q 52 16 58 18" stroke="#38bdf8" stroke-width="3" stroke-linecap="round" fill="none"/><path d="M 20 64 C 20 42 70 42 96 64 C 104 68 108 58 114 54 L 110 74 C 98 86 52 86 24 76 Z" fill="#1e40af"/><path d="M 28 72 C 40 82 72 82 86 72 Z" fill="#93c5fd"/><ellipse cx="54" cy="74" rx="10" ry="5" fill="#1d4ed8" transform="rotate(20 54 74)"/><circle cx="34" cy="60" r="3" fill="#ffffff"/><circle cx="33" cy="60" r="1.5" fill="#0f172a"/></svg>`
+      },
+      {
+        id: "shark", category: "sea", name_bm: "Ikan Yu", name_en: "Shark",
+        imageUrl: pexelsUrl(18659795),
+        render: () => `<svg viewBox="0 0 120 120" class="w-full h-full drop-shadow-sm"><ellipse cx="58" cy="66" rx="38" ry="18" fill="#475569"/><ellipse cx="58" cy="72" rx="28" ry="11" fill="#f1f5f9"/><polygon points="50,50 62,26 72,50" fill="#334155"/><polygon points="94,66 114,44 104,66 112,86 96,72" fill="#334155"/><line x1="48" y1="62" x2="48" y2="70" stroke="#334155" stroke-width="2"/><line x1="52" y1="62" x2="52" y2="70" stroke="#334155" stroke-width="2"/><circle cx="32" cy="62" r="3" fill="#0f172a"/></svg>`
+      },
+      {
+        id: "octopus", category: "sea", name_bm: "Sotong Kurita", name_en: "Octopus",
+        imageUrl: pexelsUrl(3663079),
+        render: () => `<svg viewBox="0 0 120 120" class="w-full h-full drop-shadow-sm"><g stroke="#9333ea" stroke-width="7" stroke-linecap="round" fill="none"><path d="M 40 76 Q 22 84 18 102"/><path d="M 48 78 Q 36 94 38 108"/><path d="M 56 80 Q 52 98 58 110"/><path d="M 64 80 Q 68 98 62 110"/><path d="M 72 78 Q 84 94 82 108"/><path d="M 80 76 Q 98 84 102 102"/></g><ellipse cx="60" cy="50" rx="26" ry="28" fill="#a855f7"/><circle cx="50" cy="56" r="6.5" fill="#ffffff"/><circle cx="50" cy="56" r="3.5" fill="#0f172a"/><circle cx="70" cy="56" r="6.5" fill="#ffffff"/><circle cx="70" cy="56" r="3.5" fill="#0f172a"/></svg>`
+      },
+      {
+        id: "crab", category: "sea", name_bm: "Ketam", name_en: "Crab",
+        imageUrl: pexelsUrl(27649541),
+        render: () => `<svg viewBox="0 0 120 120" class="w-full h-full drop-shadow-sm"><g stroke="#b91c1c" stroke-width="4" stroke-linecap="round" fill="none"><path d="M 32 70 L 16 64 L 14 78"/><path d="M 32 76 L 14 78 L 12 92"/><path d="M 32 82 L 18 92 L 18 104"/><path d="M 88 70 L 104 64 L 106 78"/><path d="M 88 76 L 106 78 L 108 92"/><path d="M 88 82 L 102 92 L 102 104"/></g><path d="M 34 60 Q 20 46 26 32" stroke="#dc2626" stroke-width="6" fill="none"/><circle cx="26" cy="30" r="10" fill="#ef4444"/><path d="M 86 60 Q 100 46 94 32" stroke="#dc2626" stroke-width="6" fill="none"/><circle cx="94" cy="30" r="10" fill="#ef4444"/><ellipse cx="60" cy="76" rx="28" ry="20" fill="#ef4444"/><line x1="52" y1="62" x2="50" y2="50" stroke="#b91c1c" stroke-width="3"/><circle cx="50" cy="48" r="4.5" fill="#ffffff"/><circle cx="50" cy="48" r="2.5" fill="#0f172a"/><line x1="68" y1="62" x2="70" y2="50" stroke="#b91c1c" stroke-width="3"/><circle cx="70" cy="48" r="4.5" fill="#ffffff"/><circle cx="70" cy="48" r="2.5" fill="#0f172a"/></svg>`
+      },
+      {
+        id: "turtle", category: "sea", name_bm: "Penyu", name_en: "Turtle",
+        imageUrl: pexelsUrl(10498909),
+        render: () => `<svg viewBox="0 0 120 120" class="w-full h-full drop-shadow-sm"><ellipse cx="36" cy="46" rx="14" ry="6" fill="#15803d" transform="rotate(-35 36 46)"/><ellipse cx="84" cy="46" rx="14" ry="6" fill="#15803d" transform="rotate(35 84 46)"/><ellipse cx="40" cy="94" rx="10" ry="5" fill="#15803d" transform="rotate(25 40 94)"/><ellipse cx="80" cy="94" rx="10" ry="5" fill="#15803d" transform="rotate(-25 80 94)"/><ellipse cx="60" cy="70" rx="28" ry="24" fill="#166534"/><ellipse cx="60" cy="70" rx="24" ry="20" fill="#15803d"/><circle cx="60" cy="70" r="8" fill="#166534"/><circle cx="48" cy="65" r="5" fill="#166534"/><circle cx="72" cy="65" r="5" fill="#166534"/><ellipse cx="60" cy="38" rx="10" ry="12" fill="#22c55e"/><circle cx="55" cy="34" r="2.5" fill="#0f172a"/><circle cx="65" cy="34" r="2.5" fill="#0f172a"/></svg>`
+      },
+      {
+        id: "seahorse", category: "sea", name_bm: "Kuda Laut", name_en: "Seahorse",
+        imageUrl: pexelsUrl(26706703),
+        render: () => `<svg viewBox="0 0 120 120" class="w-full h-full drop-shadow-sm"><path d="M 64 78 Q 66 102 54 108 Q 44 112 46 100 Q 48 94 56 96" fill="none" stroke="#f59e0b" stroke-width="7" stroke-linecap="round"/><path d="M 52 46 C 48 64 68 64 64 78" fill="none" stroke="#f59e0b" stroke-width="12" stroke-linecap="round"/><ellipse cx="55" cy="62" rx="8" ry="12" fill="#fcd34d"/><path d="M 66 54 Q 74 60 66 66" fill="#fef08a" stroke="#d97706" stroke-width="1.5"/><circle cx="48" cy="36" r="11" fill="#f59e0b"/><polygon points="48,26 52,18 56,26" fill="#d97706"/><rect x="26" y="35" width="14" height="6" rx="3" fill="#f59e0b"/><circle cx="46" cy="34" r="2.5" fill="#0f172a"/></svg>`
+      },
+      {
+        id: "jellyfish", category: "sea", name_bm: "Obor-obor", name_en: "Jellyfish",
+        imageUrl: pexelsUrl(19557699),
+        render: () => `<svg viewBox="0 0 120 120" class="w-full h-full drop-shadow-sm"><path d="M 30 56 C 30 26 90 26 90 56 C 80 62 70 56 60 62 C 50 56 40 62 30 56 Z" fill="#ec4899" opacity="0.88"/><path d="M 38 52 C 40 34 80 34 82 52 Z" fill="#f472b6" opacity="0.5"/><g stroke="#db2777" stroke-width="3" stroke-linecap="round" fill="none"><path d="M 40 60 Q 36 82 44 104 Q 48 112 42 116"/><path d="M 50 60 Q 56 82 48 104 Q 44 112 50 118"/><path d="M 60 60 Q 56 84 64 106 Q 66 114 62 118"/><path d="M 70 60 Q 76 82 68 104 Q 66 112 72 118"/><path d="M 80 60 Q 76 82 84 104 Q 88 112 82 116"/></g><circle cx="48" cy="46" r="3" fill="#ffffff"/><circle cx="48" cy="46" r="1.5" fill="#0f172a"/><circle cx="72" cy="46" r="3" fill="#ffffff"/><circle cx="72" cy="46" r="1.5" fill="#0f172a"/></svg>`
+      },
+      {
+        id: "seal", category: "sea", name_bm: "Anjing Laut", name_en: "Seal",
+        imageUrl: pexelsUrl(30417730),
+        render: () => `<svg viewBox="0 0 120 120" class="w-full h-full drop-shadow-sm"><path d="M 28 66 C 30 46 72 50 94 76 L 108 72 L 102 82 L 108 90 L 92 84 C 64 88 32 86 28 66 Z" fill="#64748b"/><ellipse cx="50" cy="80" rx="10" ry="5" fill="#475569" transform="rotate(25 50 80)"/><circle cx="34" cy="52" r="15" fill="#64748b"/><ellipse cx="26" cy="56" rx="6" ry="4" fill="#e2e8f0"/><circle cx="23" cy="54" r="2" fill="#0f172a"/><line x1="24" y1="56" x2="14" y2="54" stroke="#334155" stroke-width="1.5"/><line x1="24" y1="58" x2="16" y2="60" stroke="#334155" stroke-width="1.5"/><circle cx="35" cy="48" r="4" fill="#0f172a"/><circle cx="36" cy="47" r="1.5" fill="#ffffff"/></svg>`
+      },
+
+      // SMALL ANIMALS & INSECTS (5 - FROG COMPLETELY REMOVED)
+      {
+        id: "butterfly", category: "small", name_bm: "Rama-rama", name_en: "Butterfly",
+        imageUrl: pexelsUrl(34079798),
+        render: () => `<svg viewBox="0 0 120 120" class="w-full h-full drop-shadow-sm"><path d="M 60 60 C 40 18 10 28 16 58 C 18 72 45 74 60 66 Z" fill="#38bdf8"/><circle cx="30" cy="48" r="7" fill="#facc15"/><path d="M 60 66 C 45 70 20 72 26 92 C 34 106 55 96 60 76 Z" fill="#0284c7"/><path d="M 60 60 C 80 18 110 28 104 58 C 102 72 75 74 60 66 Z" fill="#38bdf8"/><circle cx="90" cy="48" r="7" fill="#facc15"/><path d="M 60 66 C 75 70 100 72 94 92 C 86 106 65 96 60 76 Z" fill="#0284c7"/><rect x="57" y="44" width="6" height="36" rx="3" fill="#1e293b"/><circle cx="60" cy="42" r="4.5" fill="#1e293b"/><path d="M 58 38 Q 46 24 40 28" fill="none" stroke="#1e293b" stroke-width="2" stroke-linecap="round"/><path d="M 62 38 Q 74 24 80 28" fill="none" stroke="#1e293b" stroke-width="2" stroke-linecap="round"/></svg>`
+      },
+      {
+        id: "bee", category: "small", name_bm: "Lebah", name_en: "Bee",
+        imageUrl: pexelsUrl(33813468),
+        render: () => `<svg viewBox="0 0 120 120" class="w-full h-full drop-shadow-sm"><ellipse cx="48" cy="38" rx="10" ry="18" fill="#e0f2fe" opacity="0.8" transform="rotate(-25 48 38)"/><ellipse cx="70" cy="38" rx="10" ry="18" fill="#e0f2fe" opacity="0.8" transform="rotate(25 70 38)"/><ellipse cx="60" cy="70" rx="22" ry="26" fill="#facc15"/><path d="M 39 62 Q 60 66 81 62" stroke="#18181b" stroke-width="5" fill="none"/><path d="M 40 74 Q 60 78 80 74" stroke="#18181b" stroke-width="5" fill="none"/><polygon points="60,96 56,104 64,104" fill="#18181b"/><circle cx="60" cy="46" r="14" fill="#18181b"/><line x1="55" y1="34" x2="48" y2="22" stroke="#18181b" stroke-width="2.5"/><circle cx="48" cy="22" r="2" fill="#facc15"/><line x1="65" y1="34" x2="72" y2="22" stroke="#18181b" stroke-width="2.5"/><circle cx="72" cy="22" r="2" fill="#facc15"/><circle cx="54" cy="45" r="3" fill="#ffffff"/><circle cx="66" cy="45" r="3" fill="#ffffff"/></svg>`
+      },
+      {
+        id: "ladybird", category: "small", name_bm: "Kumbang Kepik", name_en: "Ladybird",
+        imageUrl: pexelsUrl(12847243),
+        render: () => `<svg viewBox="0 0 120 120" class="w-full h-full drop-shadow-sm"><g stroke="#18181b" stroke-width="3.5" stroke-linecap="round"><line x1="42" y1="56" x2="22" y2="46"/><line x1="38" y1="72" x2="16" y2="72"/><line x1="42" y1="88" x2="20" y2="98"/><line x1="78" y1="56" x2="98" y2="46"/><line x1="82" y1="72" x2="104" y2="72"/><line x1="78" y1="88" x2="100" y2="98"/></g><circle cx="60" cy="74" r="28" fill="#dc2626"/><line x1="60" y1="46" x2="60" y2="102" stroke="#18181b" stroke-width="3"/><circle cx="46" cy="64" r="4.5" fill="#18181b"/><circle cx="44" cy="84" r="4.5" fill="#18181b"/><circle cx="74" cy="64" r="4.5" fill="#18181b"/><circle cx="76" cy="84" r="4.5" fill="#18181b"/><ellipse cx="60" cy="46" rx="14" ry="10" fill="#18181b"/><circle cx="52" cy="44" r="3" fill="#ffffff"/><circle cx="68" cy="44" r="3" fill="#ffffff"/></svg>`
+      },
+      {
+        id: "ant", category: "small", name_bm: "Semut", name_en: "Ant",
+        imageUrl: pexelsUrl(34784053),
+        render: () => `<svg viewBox="0 0 120 120" class="w-full h-full drop-shadow-sm"><g stroke="#7f1d1d" stroke-width="3" stroke-linecap="round" fill="none"><path d="M 52 64 L 42 50 L 32 54"/><path d="M 54 70 L 38 72 L 28 82"/><path d="M 56 76 L 44 90 L 34 100"/><path d="M 68 64 L 78 50 L 88 54"/><path d="M 66 70 L 82 72 L 92 82"/><path d="M 64 76 L 76 90 L 86 100"/></g><ellipse cx="60" cy="84" rx="14" ry="18" fill="#991b1b"/><ellipse cx="60" cy="65" rx="8" ry="10" fill="#b91c1c"/><circle cx="60" cy="46" r="12" fill="#991b1b"/><path d="M 56 36 L 46 22 L 38 24" stroke="#7f1d1d" stroke-width="2.5" stroke-linecap="round" fill="none"/><path d="M 64 36 L 74 22 L 82 24" stroke="#7f1d1d" stroke-width="2.5" stroke-linecap="round" fill="none"/><circle cx="54" cy="44" r="2.5" fill="#ffffff"/><circle cx="66" cy="44" r="2.5" fill="#ffffff"/></svg>`
+      },
+      {
+        id: "snail", category: "small", name_bm: "Siput", name_en: "Snail",
+        imageUrl: pexelsUrl(36919759),
+        render: () => `<svg viewBox="0 0 120 120" class="w-full h-full drop-shadow-sm"><path d="M 20 90 C 20 82 46 80 94 82 C 104 82 108 92 104 94 C 80 98 20 98 20 90 Z" fill="#fdba74"/><path d="M 88 82 Q 98 64 92 56" fill="none" stroke="#fdba74" stroke-width="6" stroke-linecap="round"/><line x1="90" y1="56" x2="84" y2="44" stroke="#ea580c" stroke-width="2.5"/><circle cx="84" cy="43" r="3.5" fill="#ea580c"/><line x1="94" y1="56" x2="98" y2="44" stroke="#ea580c" stroke-width="2.5"/><circle cx="98" cy="43" r="3.5" fill="#ea580c"/><circle cx="54" cy="66" r="24" fill="#b45309"/><path d="M 54 66 m -16, 0 a 16,16 0 1,0 32,0 a 16,16 0 1,0 -32,0" stroke="#fde68a" stroke-width="3" fill="none"/><circle cx="54" cy="66" r="7" fill="#d97706"/></svg>`
+      }
+    ];
+
+    function renderMascotSVG() {
+      return `
+        <svg viewBox="0 0 140 140" class="w-full h-full drop-shadow-md" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="38" cy="38" r="16" fill="#b45309" stroke="#78350f" stroke-width="2"/>
+          <circle cx="38" cy="38" r="9" fill="#fbcfe8"/>
+          <circle cx="102" cy="38" r="16" fill="#b45309" stroke="#78350f" stroke-width="2"/>
+          <circle cx="102" cy="38" r="9" fill="#fbcfe8"/>
+          <ellipse cx="70" cy="98" rx="34" ry="28" fill="#b45309" stroke="#78350f" stroke-width="2"/>
+          <ellipse cx="70" cy="100" rx="20" ry="18" fill="#fef3c7"/>
+          <ellipse cx="42" cy="120" rx="14" ry="9" fill="#92400e"/>
+          <ellipse cx="42" cy="120" rx="8" ry="5" fill="#fde68a"/>
+          <ellipse cx="98" cy="120" rx="14" ry="9" fill="#92400e"/>
+          <ellipse cx="98" cy="120" rx="8" ry="5" fill="#fde68a"/>
+          <ellipse cx="32" cy="90" rx="10" ry="8" fill="#92400e" transform="rotate(20 32 90)"/>
+          <ellipse cx="108" cy="90" rx="10" ry="8" fill="#92400e" transform="rotate(-20 108 90)"/>
+          <ellipse cx="70" cy="56" rx="33" ry="28" fill="#d97706" stroke="#78350f" stroke-width="2"/>
+          <ellipse cx="46" cy="65" rx="8" ry="5.5" fill="#f43f5e" opacity="0.45"/>
+          <ellipse cx="94" cy="65" rx="8" ry="5.5" fill="#f43f5e" opacity="0.45"/>
+          <ellipse cx="54" cy="50" rx="5.5" ry="6.5" fill="#1e293b"/>
+          <circle cx="52" cy="48" r="2.4" fill="#ffffff"/>
+          <circle cx="56" cy="53" r="1.2" fill="#ffffff"/>
+          <ellipse cx="86" cy="50" rx="5.5" ry="6.5" fill="#1e293b"/>
+          <circle cx="84" cy="48" r="2.4" fill="#ffffff"/>
+          <circle cx="88" cy="53" r="1.2" fill="#ffffff"/>
+          <ellipse cx="70" cy="64" rx="15" ry="11" fill="#fef3c7"/>
+          <path d="M 64 60 C 64 57 76 57 76 60 C 76 64 70 66 70 66 C 70 66 64 64 64 60 Z" fill="#451a03"/>
+          <path d="M 70 66 L 70 70 M 66 70 Q 70 74 74 70" fill="none" stroke="#451a03" stroke-width="2.2" stroke-linecap="round"/>
+          <polygon points="55,78 70,82 55,86" fill="#ef4444"/>
+          <polygon points="85,78 70,82 85,86" fill="#ef4444"/>
+          <circle cx="70" cy="82" r="3.5" fill="#facc15" stroke="#d97706" stroke-width="1"/>
+        </svg>`;
+    }
+
+    const STORAGE_KEY = "kinderKlub_cariHaiwan_playerProfile";
+    let currentLang = "bm";
+    let currentSessionTotal = 10;
+    let currentQuestionIndex = 0;
+    let currentScore = 0;
+    let sessionQuestions = [];
+    let isProcessingAnswer = false;
+
+    let profileData = {
+      playerName: "",
+      familyCode: "",
+      gamesPlayed: 0,
+      questionsAnswered: 0,
+      correctAnswers: 0,
+      bestScore: 0,
+      recentActivity: ""
+    };
+
+    const I18N = {
+      bm: {
+        appTitle: "Cari Haiwan",
+        appSubtitle: "Kindy Klub",
+        langToggle: "English",
+        profileNav: "Profil",
+        homeTitle: "Cari Haiwan!",
+        homeSub: "Jom kenal dan cari haiwan comel bersama Si Beruang!",
+        sessionPrompt: "Pilih Bilangan Soalan:",
+        questionLabel: "Soalan",
+        howToPlay: "Cara Bermain",
+        howToPlayTitle: "Cara Bermain",
+        instr1: "Dengar atau baca arahan. Contohnya: \"Cari kucing.\"",
+        instr2: "Lihat 3 pilihan gambar haiwan yang dipaparkan.",
+        instr3: "Tekan pada haiwan yang betul untuk kumpul markah!",
+        instrBtn: "Faham, Jom Mula!",
+        findPrefix: "Cari",
+        instructionLabel: "Arahan",
+        scoreLabel: "Markah",
+        questionProgress: (cur, tot) => `Soalan ${cur} daripada ${tot}`,
+        answerPrompt: "Tekan jawapan yang betul:",
+        correctFeedback: "Betul! Bagus!",
+        wrongFeedback: "Tak apa! Jom teruskan.",
+        resultTitle: "Tahniah!",
+        resultSub: "Hebatnya kamu bermain hari ini!",
+        statAnswered: "Soalan Dijawab",
+        statCorrect: "Jawapan Betul",
+        statAccuracy: "Ketepatan",
+        statBest: "Skor Terbaik",
+        playAgain: "Main Lagi",
+        backHome: "Kembali ke Menu Utama",
+        profileTitle: "Profil Pemain",
+        profileSub: "Rekod Pembelajaran Kindy Klub",
+        playerNameLabel: "Nama Pemain:",
+        familyCodeLabel: "Kod Keluarga (Pilihan):",
+        statProfGames: "Sesi Dimainkan",
+        statProfQuestions: "Soalan Dijawab",
+        statProfCorrect: "Jawapan Betul",
+        statProfBest: "Skor Terbaik",
+        statProfAccuracy: "Ketepatan",
+        statProfRecent: "Aktiviti Terkini",
+        profileBack: "Kembali ke Permainan",
+        noneYet: "Belum ada"
+      },
+      en: {
+        appTitle: "Find the Animal",
+        appSubtitle: "Kindy Klub",
+        langToggle: "B. Melayu",
+        profileNav: "Profile",
+        homeTitle: "Find the Animal!",
+        homeSub: "Let's explore and find real animals with Barnaby Bear!",
+        sessionPrompt: "Choose Number of Questions:",
+        questionLabel: "Questions",
+        howToPlay: "How to Play",
+        howToPlayTitle: "How to Play",
+        instr1: "Listen to or read the prompt. For example: \"Find the cat.\"",
+        instr2: "Look at the 3 animal picture choices on screen.",
+        instr3: "Tap the correct animal to earn stars!",
+        instrBtn: "Got it, Let's Play!",
+        findPrefix: "Find the",
+        instructionLabel: "Instruction",
+        scoreLabel: "Score",
+        questionProgress: (cur, tot) => `Question ${cur} of ${tot}`,
+        answerPrompt: "Tap the matching animal:",
+        correctFeedback: "Correct! Great job!",
+        wrongFeedback: "That's okay! Let's keep going.",
+        resultTitle: "Well Done!",
+        resultSub: "You did wonderful exploring today!",
+        statAnswered: "Questions Answered",
+        statCorrect: "Correct Answers",
+        statAccuracy: "Accuracy",
+        statBest: "Best Score",
+        playAgain: "Play Again",
+        backHome: "Return to Main Menu",
+        profileTitle: "Player Profile",
+        profileSub: "Kindy Klub Learning Record",
+        playerNameLabel: "Player Name:",
+        familyCodeLabel: "Family Code (Optional):",
+        statProfGames: "Games Played",
+        statProfQuestions: "Questions Answered",
+        statProfCorrect: "Correct Answers",
+        statProfBest: "Best Score",
+        statProfAccuracy: "Accuracy",
+        statProfRecent: "Recent Activity",
+        profileBack: "Back to Game",
+        noneYet: "None yet"
+      }
+    };
+
+    function handleImgError(imgEl, animalId) {
+      const animal = ANIMAL_CATALOG.find(a => a.id === animalId);
+      if (animal && imgEl && imgEl.parentElement) {
+        imgEl.parentElement.innerHTML = animal.render();
+      }
+    }
+
+    function renderAnimalVisual(animal, isSmallChoice = false) {
+      const altText = currentLang === "bm" ? animal.name_bm : animal.name_en;
+      if (animal.imageUrl) {
+        const roundedClass = isSmallChoice ? "rounded-xl max-h-24 sm:max-h-28" : "rounded-2xl";
+        return `<img src="${animal.imageUrl}" 
+                     alt="${altText}" 
+                     referrerpolicy="no-referrer"
+                     loading="eager"
+                     class="photo-display w-full h-full object-cover shadow-sm ${roundedClass}" 
+                     onerror="handleImgError(this, '${animal.id}')">`;
+      }
+      return animal.render();
+    }
+
+    function loadProfile() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          profileData = Object.assign({}, profileData, parsed);
+        }
+      } catch (e) {
+        console.warn("localStorage unavailable:", e);
+      }
+      const nameInput = document.getElementById("playerNameInput");
+      const codeInput = document.getElementById("familyCodeInput");
+      if (nameInput) nameInput.value = profileData.playerName || "";
+      if (codeInput) codeInput.value = profileData.familyCode || "";
+      updateProfileDisplayStats();
+    }
+
+    function saveProfileData() {
+      const nameInput = document.getElementById("playerNameInput");
+      const codeInput = document.getElementById("familyCodeInput");
+      if (nameInput) profileData.playerName = nameInput.value.trim();
+      if (codeInput) profileData.familyCode = codeInput.value.trim();
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(profileData));
+      } catch (e) {
+        console.warn("Failed saving profile:", e);
+      }
+    }
+
+    function updateProfileDisplayStats() {
+      const g = document.getElementById("statProfGames");
+      const q = document.getElementById("statProfQuestions");
+      const c = document.getElementById("statProfCorrect");
+      const b = document.getElementById("statProfBest");
+      const a = document.getElementById("statProfAccuracy");
+      const r = document.getElementById("statProfRecent");
+
+      if (g) g.textContent = profileData.gamesPlayed;
+      if (q) q.textContent = profileData.questionsAnswered;
+      if (c) c.textContent = profileData.correctAnswers;
+      if (b) b.textContent = profileData.bestScore;
+      
+      const acc = profileData.questionsAnswered > 0 
+        ? Math.round((profileData.correctAnswers / profileData.questionsAnswered) * 100) 
+        : 0;
+      if (a) a.textContent = `${acc}%`;
+      if (r) r.textContent = profileData.recentActivity || I18N[currentLang].noneYet;
+    }
+
+    function navigate(viewName) {
+      const views = ["home", "instructions", "gameplay", "result", "profile", "gallery"];
+      views.forEach(v => {
+        const el = document.getElementById(`view-${v}`);
+        if (el) {
+          if (v === viewName) {
+            el.classList.remove("hidden");
+          } else {
+            el.classList.add("hidden");
+          }
+        }
+      });
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function toggleLanguage() {
+      currentLang = currentLang === "bm" ? "en" : "bm";
+      applyLanguage();
+      if (sessionQuestions.length > 0 && currentQuestionIndex < sessionQuestions.length) {
+        renderCurrentQuestion(false);
+      }
+    }
+
+    function applyLanguage() {
+      const t = I18N[currentLang];
+      
+      document.getElementById("appTitleText").textContent = t.appTitle;
+      document.getElementById("appSubtitleText").textContent = t.appSubtitle;
+      document.getElementById("langLabel").textContent = t.langToggle;
+      document.getElementById("profileNavLabel").textContent = t.profileNav;
+
+      document.getElementById("homeWelcomeTitle").textContent = t.homeTitle;
+      document.getElementById("homeWelcomeSub").textContent = t.homeSub;
+      document.getElementById("sessionSelectPrompt").textContent = t.sessionPrompt;
+      document.getElementById("session5Label").textContent = t.questionLabel;
+      document.getElementById("session10Label").textContent = t.questionLabel;
+      document.getElementById("session15Label").textContent = t.questionLabel;
+      document.getElementById("howToPlayLabel").textContent = t.howToPlay;
+
+      document.getElementById("instrTitle").textContent = t.howToPlayTitle;
+      document.getElementById("instrStep1").textContent = t.instr1;
+      document.getElementById("instrStep2").textContent = t.instr2;
+      document.getElementById("instrStep3").textContent = t.instr3;
+      document.getElementById("instrBackBtn").textContent = t.instrBtn;
+
+      document.getElementById("instructionSubText").textContent = t.instructionLabel;
+      document.getElementById("scoreLabelInline").textContent = t.scoreLabel;
+      document.getElementById("answerChoiceInstruction").textContent = t.answerPrompt;
+
+      document.getElementById("resultCongratTitle").textContent = t.resultTitle;
+      document.getElementById("resultCheerSub").textContent = t.resultSub;
+      document.getElementById("statAnsweredLabel").textContent = t.statAnswered;
+      document.getElementById("statCorrectLabel").textContent = t.statCorrect;
+      document.getElementById("statAccuracyLabel").textContent = t.statAccuracy;
+      document.getElementById("statBestScoreLabel").textContent = t.statBest;
+      document.getElementById("playAgainBtn").textContent = t.playAgain;
+      document.getElementById("backHomeFromResBtn").textContent = t.backHome;
+
+      document.getElementById("profileTitle").textContent = t.profileTitle;
+      document.getElementById("profileSub").textContent = t.profileSub;
+      document.getElementById("playerNameLabel").textContent = t.playerNameLabel;
+      document.getElementById("familyCodeLabel").textContent = t.familyCodeLabel;
+      document.getElementById("statProfGamesLabel").textContent = t.statProfGames;
+      document.getElementById("statProfQuestionsLabel").textContent = t.statProfQuestions;
+      document.getElementById("statProfCorrectLabel").textContent = t.statProfCorrect;
+      document.getElementById("statProfBestLabel").textContent = t.statProfBest;
+      document.getElementById("statProfAccuracyLabel").textContent = t.statProfAccuracy;
+      document.getElementById("statProfRecentLabel").textContent = t.statProfRecent;
+      document.getElementById("profileBackBtn").textContent = t.profileBack;
+
+      updateProfileDisplayStats();
+    }
+
+    function speakText(text, langCode) {
+      if (!('speechSynthesis' in window)) return;
+      try {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = langCode === "bm" ? "ms-MY" : "en-US";
+        utterance.rate = 0.88;
+        utterance.pitch = 1.08;
+        window.speechSynthesis.speak(utterance);
+      } catch (e) {
+        console.warn("SpeechSynthesis error:", e);
+      }
+    }
+
+    function speakCurrentInstruction() {
+      if (sessionQuestions.length === 0 || currentQuestionIndex >= sessionQuestions.length) return;
+      const q = sessionQuestions[currentQuestionIndex];
+      const targetName = currentLang === "bm" ? q.target.name_bm : q.target.name_en;
+      const instructionText = currentLang === "bm" ? `Cari ${targetName}.` : `Find the ${targetName}.`;
+      
+      const btn = document.getElementById("speakerIcon");
+      if (btn) btn.classList.add("anim-wave");
+      speakText(instructionText, currentLang);
+      setTimeout(() => {
+        if (btn) btn.classList.remove("anim-wave");
+      }, 1400);
+    }
+
+    function shuffleArray(arr) {
+      const copy = arr.slice();
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        const temp = copy[i];
+        copy[i] = copy[j];
+        copy[j] = temp;
+      }
+      return copy;
+    }
+
+    function generateSessionQuestions(count) {
+      const shuffledPool = shuffleArray(ANIMAL_CATALOG);
+      const chosenTargets = shuffledPool.slice(0, count);
+      const questions = [];
+
+      chosenTargets.forEach(target => {
+        const availableDistractors = ANIMAL_CATALOG.filter(a => a.id !== target.id);
+        const shuffledDistractors = shuffleArray(availableDistractors);
+        const distractors = shuffledDistractors.slice(0, 2);
+        const choices = shuffleArray([target, distractors[0], distractors[1]]);
+
+        questions.push({
+          target: target,
+          choices: choices
+        });
+      });
+
+      return questions;
+    }
+
+    function startGame(numQuestions) {
+      currentSessionTotal = numQuestions;
+      currentQuestionIndex = 0;
+      currentScore = 0;
+      isProcessingAnswer = false;
+      sessionQuestions = generateSessionQuestions(numQuestions);
+
+      document.getElementById("currentScoreNum").textContent = "0";
+      navigate("gameplay");
+      renderCurrentQuestion(true);
+    }
+
+    function playAgain() {
+      startGame(currentSessionTotal);
+    }
+
+    function renderCurrentQuestion(autoSpeak = true) {
+      if (currentQuestionIndex >= sessionQuestions.length) {
+        finishSession();
+        return;
+      }
+
+      const q = sessionQuestions[currentQuestionIndex];
+      const t = I18N[currentLang];
+      const targetName = currentLang === "bm" ? q.target.name_bm : q.target.name_en;
+
+      document.getElementById("gameProgressText").textContent = t.questionProgress(currentQuestionIndex + 1, currentSessionTotal);
+      document.getElementById("instructionMainText").textContent = currentLang === "bm" ? `Cari ${targetName}.` : `Find the ${targetName}.`;
+
+      const targetDisplay = document.getElementById("targetAnimalDisplay");
+      if (targetDisplay) {
+        targetDisplay.innerHTML = renderAnimalVisual(q.target, false);
+        targetDisplay.classList.add("anim-pop");
+        setTimeout(() => targetDisplay.classList.remove("anim-pop"), 450);
+      }
+
+      const container = document.getElementById("choiceCardsContainer");
+      container.innerHTML = "";
+
+      q.choices.forEach(choice => {
+        const choiceName = currentLang === "bm" ? choice.name_bm : choice.name_en;
+        const btn = document.createElement("button");
+        btn.className = "card-choice bg-white rounded-2xl p-2 sm:p-3 border-2 border-emerald-100 flex flex-col items-center justify-between focus:outline-none";
+        btn.setAttribute("aria-label", choiceName);
+        
+        btn.innerHTML = `
+          <div class="w-20 h-20 sm:w-28 sm:h-28 flex items-center justify-center pointer-events-none overflow-hidden rounded-xl">
+            ${renderAnimalVisual(choice, true)}
+          </div>
+          <span class="mt-2 text-xs sm:text-base font-black text-emerald-950 block text-center leading-tight">
+            ${choiceName}
+          </span>
+        `;
+
+        btn.onclick = () => handleAnswer(choice.id === q.target.id, btn);
+        container.appendChild(btn);
+      });
+
+      if (autoSpeak) {
+        speakCurrentInstruction();
+      }
+    }
+
+    function handleAnswer(isCorrect, buttonEl) {
+      if (isProcessingAnswer) return;
+      isProcessingAnswer = true;
+
+      const t = I18N[currentLang];
+      const toast = document.getElementById("feedbackToast");
+      const toastIcon = document.getElementById("feedbackIcon");
+      const toastText = document.getElementById("feedbackText");
+
+      if (isCorrect) {
+        currentScore++;
+        document.getElementById("currentScoreNum").textContent = currentScore;
+        buttonEl.classList.add("bg-emerald-100", "border-emerald-500", "scale-105");
+
+        toastIcon.innerHTML = `
+          <svg viewBox="0 0 24 24" class="w-full h-full text-emerald-500" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>`;
+        toastText.textContent = t.correctFeedback;
+        toastText.className = "text-lg sm:text-2xl font-black text-emerald-700 text-center";
+      } else {
+        buttonEl.classList.add("bg-amber-50", "border-amber-400");
+        toastIcon.innerHTML = `
+          <svg viewBox="0 0 24 24" class="w-full h-full text-amber-500" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="M8 14s1.5 2 4 2 4-2 4-2"></path>
+            <line x1="9" y1="9" x2="9.01" y2="9"></line>
+            <line x1="15" y1="9" x2="15.01" y2="9"></line>
+          </svg>`;
+        toastText.textContent = t.wrongFeedback;
+        toastText.className = "text-base sm:text-xl font-black text-amber-800 text-center";
+      }
+
+      toast.classList.remove("opacity-0", "pointer-events-none");
+      toast.classList.add("opacity-100");
+
+      setTimeout(() => {
+        toast.classList.remove("opacity-100");
+        toast.classList.add("opacity-0", "pointer-events-none");
+        currentQuestionIndex++;
+        isProcessingAnswer = false;
+        renderCurrentQuestion(true);
+      }, 1250);
+    }
+
+    function finishSession() {
+      profileData.gamesPlayed += 1;
+      profileData.questionsAnswered += currentSessionTotal;
+      profileData.correctAnswers += currentScore;
+      if (currentScore > profileData.bestScore) {
+        profileData.bestScore = currentScore;
+      }
+      const accuracyPct = Math.round((currentScore / currentSessionTotal) * 100);
+      const dateStr = new Date().toLocaleDateString(currentLang === "bm" ? "ms-MY" : "en-US", { month: "short", day: "numeric" });
+      profileData.recentActivity = `${currentScore}/${currentSessionTotal} (${accuracyPct}%) - ${dateStr}`;
+
+      saveProfileData();
+      updateProfileDisplayStats();
+
+      document.getElementById("statAnsweredVal").textContent = currentSessionTotal;
+      document.getElementById("statCorrectVal").textContent = currentScore;
+      document.getElementById("statAccuracyVal").textContent = `${accuracyPct}%`;
+      document.getElementById("statBestScoreVal").textContent = profileData.bestScore;
+
+      navigate("result");
+    }
+
+    let galleryResults = { ok: 0, svg: 0 };
+
+    function openGalleryView() {
+      navigate("gallery");
+      const container = document.getElementById("galleryGridContainer");
+      container.innerHTML = "";
+      galleryResults = { ok: 0, svg: 0 };
+      updateGallerySummary();
+
+      ANIMAL_CATALOG.forEach(animal => {
+        const card = document.createElement("div");
+        card.className = "bg-white p-2 sm:p-2.5 rounded-2xl border border-emerald-200 shadow-sm flex flex-col items-center text-center";
+        
+        const badgeId = `badge-${animal.id}`;
+        const imgBoxId = `imgbox-${animal.id}`;
+
+        card.innerHTML = `
+          <div id="${imgBoxId}" class="w-full h-24 sm:h-28 rounded-xl overflow-hidden bg-gray-100 flex items-center justify-center relative">
+            <img src="${animal.imageUrl}" 
+                 alt="${animal.name_bm}"
+                 referrerpolicy="no-referrer"
+                 class="w-full h-full object-cover"
+                 onload="handleGalleryImgSuccess('${animal.id}')"
+                 onerror="handleGalleryImgFallback('${animal.id}')">
+          </div>
+          <p class="font-extrabold text-xs sm:text-sm text-emerald-950 mt-1.5">${animal.name_bm}</p>
+          <p class="text-[11px] font-bold text-gray-400">${animal.name_en}</p>
+          <span id="${badgeId}" class="mt-1 px-2 py-0.5 rounded-full text-[10px] font-black bg-gray-100 text-gray-500">
+            Memeriksa...
+          </span>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function handleGalleryImgSuccess(animalId) {
+      const badge = document.getElementById(`badge-${animalId}`);
+      if (badge) {
+        badge.className = "mt-1 px-2 py-0.5 rounded-full text-[10px] font-black bg-emerald-100 text-emerald-700 border border-emerald-300";
+        badge.textContent = "🟢 Foto Pexels OK";
+      }
+      galleryResults.ok++;
+      updateGallerySummary();
+    }
+
+    function handleGalleryImgFallback(animalId) {
+      const badge = document.getElementById(`badge-${animalId}`);
+      const imgBox = document.getElementById(`imgbox-${animalId}`);
+      const animal = ANIMAL_CATALOG.find(a => a.id === animalId);
+      
+      if (imgBox && animal) {
+        imgBox.innerHTML = animal.render();
+      }
+      if (badge) {
+        badge.className = "mt-1 px-2 py-0.5 rounded-full text-[10px] font-black bg-amber-100 text-amber-800 border border-amber-300";
+        badge.textContent = "🟠 Guna SVG";
+      }
+      galleryResults.svg++;
+      updateGallerySummary();
+    }
+
+    function updateGallerySummary() {
+      const okEl = document.getElementById("galleryPhotoOkCount");
+      const svgEl = document.getElementById("gallerySvgCount");
+      if (okEl) okEl.textContent = `${galleryResults.ok} / 55`;
+      if (svgEl) svgEl.textContent = `${galleryResults.svg} / 55`;
+    }
+
+    window.onload = function() {
+      const headerMascot = document.getElementById("headerMascotIcon");
+      if (headerMascot) headerMascot.innerHTML = renderMascotSVG();
+
+      const homeMascot = document.getElementById("homeMascotContainer");
+      if (homeMascot) homeMascot.innerHTML = renderMascotSVG();
+
+      const instrMascot = document.getElementById("instrMascotContainer");
+      if (instrMascot) instrMascot.innerHTML = renderMascotSVG();
+
+      const resMascot = document.getElementById("resultMascotContainer");
+      if (resMascot) resMascot.innerHTML = renderMascotSVG();
+
+      const profMascot = document.getElementById("profileMascotContainer");
+      if (profMascot) profMascot.innerHTML = renderMascotSVG();
+
+      loadProfile();
+      applyLanguage();
+      navigate("home");
+    };
+  </script>
+</body>
+</html>
